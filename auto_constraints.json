@@ -1,0 +1,62 @@
+{
+    "BIOL1101": {
+        "must_ps": false,
+        "must_lab": false
+    },
+    "COMP2222": {
+        "must_ps": true,
+        "must_lab": true
+    },
+    "COMP2502": {
+        "must_ps": false,
+        "must_lab": false
+    },
+    "COMP3334": {
+        "must_ps": true,
+        "must_lab": false
+    },
+    "COMP3432": {
+        "must_ps": true,
+        "must_lab": false
+    },
+    "CORE0108": {
+        "must_ps": false,
+        "must_lab": false
+    },
+    "CORE0401": {
+        "must_ps": false,
+        "must_lab": false
+    },
+    "CORE0402": {
+        "must_ps": false,
+        "must_lab": false
+    },
+    "MATH2103": {
+        "must_ps": true,
+        "must_lab": false
+    },
+    "OHES4411": {
+        "must_ps": false,
+        "must_lab": false
+    },
+    "OHES4412": {
+        "must_ps": false,
+        "must_lab": false
+    },
+    "PHYS1112": {
+        "must_ps": false,
+        "must_lab": true
+    },
+    "SOFT3416": {
+        "must_ps": false,
+        "must_lab": true
+    },
+    "SOFT3511": {
+        "must_ps": false,
+        "must_lab": false
+    },
+    "MATH1112": {
+        "must_ps": true,
+        "must_lab": false
+    }
+}
