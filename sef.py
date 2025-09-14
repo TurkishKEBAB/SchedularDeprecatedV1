@@ -10,10 +10,29 @@ import urllib.request
 import io
 from PIL import Image, ImageTk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import logging
 
 import matplotlib.pyplot as plt
 import pandas as pd
 from tabulate import tabulate
+
+# Import new modules for filter-first workflow
+from utils.snapshot import (
+    save_snapshot_sqlite,
+    list_snapshots,
+    load_snapshot_sqlite,
+    save_run_result_sqlite,
+    get_snapshot_brief,
+    init_database
+)
+from utils.parser import process_excel_robust, validate_course_data
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+# Database path for snapshots
+SNAPSHOT_DB_PATH = "course_snapshots.sqlite"
 
 # =============================================================================
 # Global Defaults and Settings
@@ -133,36 +152,70 @@ def parse_schedule(schedule_str):
 def process_excel(file_path, sheet_name):
     try:
         df = pd.read_excel(file_path, sheet_name=sheet_name)
+
+        # Handle the new Excel format with Turkish column names
+        if "Ders Kodu" in df.columns:
+            # Map the new Turkish column names to the expected format
+            column_mapping = {
+                "Ders Kodu": "Code",
+                "Başlık": "Lecture Name",
+                "AKTS Kredisi": "Credit",
+                "Ders Saati(leri)": "Hour"
+            }
+
+            # Rename columns according to mapping
+            df = df.rename(columns=column_mapping)
+
+            # Handle instructor information - combine first and last name if available
+            if "Eğitmen Adı" in df.columns and "Eğitmen Soyadı" in df.columns:
+                df["Lecture Instructor"] = df["Eğitmen Adı"] + " " + df["Eğitmen Soyadı"]
+
+        # Fall back to legacy format handling if the new columns aren't found
         if "Code" not in df.columns:
-            raise ValueError("Expected column 'Code' not found.")
+            raise ValueError("Expected column 'Code' or 'Ders Kodu' not found.")
     except Exception:
+        # Fallback for older Excel formats or when columns can't be identified
         df = pd.read_excel(file_path, sheet_name=sheet_name, header=None)
-        if df.shape[1] == 5:
-            df.columns = ["Code", "Lecture Name", "Credit", "Hour", "Lecture Instructor"]
+        if df.shape[1] >= 5:
+            df.columns = ["Code", "Lecture Name", "Credit", "Hour", "Lecture Instructor"] + [f"Extra{i}" for i in range(df.shape[1]-5)]
         else:
             df.columns = ["Code", "Lecture Name", "Credit", "Hour"]
+
     teacher_col = "Lecture Instructor" if "Lecture Instructor" in df.columns else None
     courses = []
+
     for _, row in df.iterrows():
-        code = str(row["Code"]).strip()
-        course_name = str(row["Lecture Name"]).strip()
-        credit = int(row["Credit"])
-        schedule_str = row["Hour"]
-        main_code = foundation_main_code(code)
-        tour = foundation_tour(code)
-        schedule_list = parse_schedule(schedule_str)
-        has_lecture = True if tour == "lecture" else False
-        teacher = str(row[teacher_col]).strip() if teacher_col else "Default"
-        courses.append({
-            "code": code,
-            "main_code": main_code,
-            "name": course_name,
-            "ECTS": credit,
-            "type": tour,
-            "schedule": schedule_list,
-            "hasLecture": has_lecture,
-            "teacher": teacher
-        })
+        try:
+            code = str(row["Code"]).strip()
+            course_name = str(row["Lecture Name"]).strip()
+
+            # Handle credit as either integer or float
+            try:
+                credit = int(row["Credit"])
+            except ValueError:
+                credit = int(float(row["Credit"]))
+
+            schedule_str = str(row["Hour"])
+            main_code = foundation_main_code(code)
+            tour = foundation_tour(code)
+            schedule_list = parse_schedule(schedule_str)
+            has_lecture = True if tour == "lecture" else False
+            teacher = str(row[teacher_col]).strip() if teacher_col and not pd.isna(row[teacher_col]) else "Default"
+
+            courses.append({
+                "code": code,
+                "main_code": main_code,
+                "name": course_name,
+                "ECTS": credit,
+                "type": tour,
+                "schedule": schedule_list,
+                "hasLecture": has_lecture,
+                "teacher": teacher
+            })
+        except Exception as e:
+            print(f"Error processing row: {e}")
+            continue
+
     return courses
 
 
@@ -863,7 +916,7 @@ class SchedulerGUI:
 
         ttk.Label(self.tab1, text="Sheet Name:").grid(row=0, column=3, sticky="e")
         self.sheet_entry = ttk.Entry(self.tab1, width=20)
-        self.sheet_entry.insert(0, "Sheet2")
+        self.sheet_entry.insert(0, "Sheet1")
         self.sheet_entry.grid(row=0, column=4)
 
         ttk.Label(self.tab1, text="MAX_ECTS:").grid(row=1, column=0, sticky="e")
@@ -890,14 +943,33 @@ class SchedulerGUI:
         ttk.Radiobutton(self.tab1, text="Sections", variable=self.target_var, value="sections").grid(row=5, column=1,
                                                                                                      sticky="w")
         ttk.Radiobutton(self.tab1, text="Course", variable=self.target_var, value="course").grid(row=5, column=1,
-                                                                                                 padx=100, sticky="w")
+            # Use robust parser instead of legacy parser
+            self.courses = process_excel_robust(excel_file, sheet_name)
+
+            # Validate parsed data
+            issues = validate_course_data(self.courses)
+            if issues:
+                logger.warning(f"Data validation issues: {issues}")
+
+            # Initialize app state for filter-first workflow
+            self.filtered_courses = None
+            self.last_filter_profile = None
+
+            # Initialize SQLite database
+            try:
+                init_database(SNAPSHOT_DB_PATH)
+                logger.info(f"SQLite database initialized at {SNAPSHOT_DB_PATH}")
+            except Exception as e:
+                logger.error(f"Failed to initialize database: {e}")
+
 
         ttk.Checkbutton(self.tab1, text="Use simulated annealing improvement", variable=self.sa_var).grid(row=6,
                                                                                                           column=1,
+
                                                                                                           pady=5)
         ttk.Checkbutton(self.tab1, text="Count optional courses in credit calculation",
                         variable=self.count_optional_var).grid(row=7, column=1, pady=5)
-
+        self.setup_course_preview_enhanced()
         ttk.Button(self.tab1, text="Load Courses", command=self.load_courses).grid(row=8, column=1, pady=10)
 
     def browse_file(self):
@@ -922,17 +994,61 @@ class SchedulerGUI:
     def setup_course_preview(self):
         for widget in self.tab2.winfo_children():
             widget.destroy()
+
+        # Add search functionality
+        search_frame = ttk.Frame(self.tab2)
+        search_frame.pack(fill="x", padx=5, pady=5)
+
+        ttk.Label(search_frame, text="Search Courses:").pack(side="left", padx=(0, 5))
+        self.search_entry = ttk.Entry(search_frame, width=30)
+        self.search_entry.pack(side="left", padx=5)
+
+        search_button = ttk.Button(search_frame, text="Search", command=self.search_courses)
+        search_button.pack(side="left", padx=5)
+
+        clear_button = ttk.Button(search_frame, text="Clear", command=lambda: self.search_courses(clear=True))
+        clear_button.pack(side="left", padx=5)
+
+        # Create the treeview for course display
         columns = ("Code", "Lecture Name", "Credit", "Hour", "Lecture Instructor")
-        tree = ttk.Treeview(self.tab2, columns=columns, show="headings")
+        self.courses_tree = ttk.Treeview(self.tab2, columns=columns, show="headings")
+
         for col in columns:
-            tree.heading(col, text=col)
-            tree.column(col, width=120)
-        for course in self.courses:
-            teacher = course.get("teacher", "Default")
-            schedule_str = ", ".join(f"{d}{h}" for d, h in course["schedule"])
-            tree.insert("", tk.END, values=(course["code"], course["name"], course["ECTS"], schedule_str, teacher))
-        tree.pack(fill="both", expand=True)
+            self.courses_tree.heading(col, text=col)
+            self.courses_tree.column(col, width=120)
+
+        # Create a frame for the treeview with scrollbars
+        tree_frame = ttk.Frame(self.tab2)
+        tree_frame.pack(fill="both", expand=True, padx=5, pady=5)
+
+        # Add vertical scrollbar
+        y_scrollbar = ttk.Scrollbar(tree_frame, orient="vertical", command=self.courses_tree.yview)
+        y_scrollbar.pack(side="right", fill="y")
+
+        # Add horizontal scrollbar
+        x_scrollbar = ttk.Scrollbar(tree_frame, orient="horizontal", command=self.courses_tree.xview)
+        x_scrollbar.pack(side="bottom", fill="x")
+
+        # Configure treeview to use scrollbars
+        self.courses_tree.configure(yscrollcommand=y_scrollbar.set, xscrollcommand=x_scrollbar.set)
+        self.courses_tree.pack(fill="both", expand=True)
+
+        # Populate the treeview with course data
+        self.populate_courses_tree()
+
         ttk.Button(self.tab2, text="Proceed to Course Selection", command=self.open_course_selection).pack(pady=5)
+
+    def search_courses(self, clear=False):
+        search_term = self.search_entry.get().strip().lower()
+        for row in self.courses_tree.get_children():
+            self.courses_tree.delete(row)
+        for course in self.courses:
+            if clear or search_term in course["code"].lower() or search_term in course["name"].lower():
+                self.courses_tree.insert("", tk.END, values=(
+                    course["code"], course["name"], course["ECTS"],
+                    ", ".join(f"{d}{h}" for d, h in course["schedule"]),
+                    course.get("teacher", "Default")
+                ))
 
     def open_course_selection(self):
         CourseSelectionWindow(self.master, self.courses, self.on_course_selection)
@@ -969,14 +1085,20 @@ class SchedulerGUI:
         replacement_target = self.target_var.get().lower()
         self.log(f"Replacement target set to: {replacement_target}")
 
-        self.log("Reading Excel data...")
-        try:
-            courses = process_excel(self.file_entry.get(), self.sheet_entry.get().strip() or "Sheet2")
-        except Exception as e:
-            messagebox.showerror("File Error", f"Error reading Excel file: {e}")
-            return
-        self.log(f"{len(courses)} courses read from file.")
-        course_groups = build_course_groups(courses)
+        # NEW: Choose data source based on filter-first workflow
+        if hasattr(self, 'filtered_courses') and self.filtered_courses is not None:
+            source_courses = self.filtered_courses
+            self.log(f"Planner data source: FILTERED ({len(source_courses)} courses)")
+        else:
+            # Fallback to reading from Excel if no filtered courses available
+            try:
+                source_courses = process_excel_robust(self.file_entry.get(), self.sheet_entry.get().strip() or "Sheet2")
+                self.log(f"Planner data source: ALL ({len(source_courses)} courses)")
+            except Exception as e:
+                messagebox.showerror("File Error", f"Error reading Excel file: {e}")
+                return
+
+        course_groups = build_course_groups(source_courses)
         global USER_MANDATORY_CODES
         USER_MANDATORY_CODES = self.user_mandatory
         group_valid_selections, group_options = build_group_options(course_groups, replacement_target)
@@ -1011,7 +1133,7 @@ class SchedulerGUI:
         if not self.include_extra:
             total_mandatory = 0
             seen = set()
-            for course in courses:
+            for course in source_courses:
                 if course["type"] == "lecture" and course["main_code"] in self.user_mandatory and course[
                     "main_code"] not in seen:
                     total_mandatory += course["ECTS"]
@@ -1027,81 +1149,112 @@ class SchedulerGUI:
         pb.start(10)
 
         def run_dfs():
-            dfs_results = []
-            strict_results = dfs_strict(sorted_group_keys, 0, [], 0, group_options, max_remaining, self.user_mandatory,
-                                        self.frequency_prefs, self.count_optional_var.get())
-            strict_results = [(ct, sched) for ct, sched in strict_results if ct == MAX_ECTS]
-            if strict_results:
-                chosen_schedule = strict_results[0][1]
-            else:
-                dfs_results = dfs_relaxed(sorted_group_keys, 0, [], 0, group_options, max_remaining,
-                                          self.user_mandatory, self.frequency_prefs, self.count_optional_var.get())
-                if dfs_results and any(ct == MAX_ECTS for ct, sched in dfs_results):
-                    relaxed_results = [(ct, sched) for ct, sched in dfs_results if ct == MAX_ECTS]
+            try:
+                dfs_results = []
+                strict_results = dfs_strict(sorted_group_keys, 0, [], 0, group_options, max_remaining, self.user_mandatory,
+                                            self.frequency_prefs, self.count_optional_var.get())
+                strict_results = [(ct, sched) for ct, sched in strict_results if ct == MAX_ECTS]
+                if strict_results:
+                    chosen_schedule = strict_results[0][1]
                 else:
-                    max_total = max((ct for ct, sched in dfs_results), default=0)
-                    relaxed_results = [(ct, sched) for ct, sched in dfs_results if ct == max_total]
-                chosen_schedule = (relaxed_results[0][1] if relaxed_results else [])
-            all_results = strict_results + dfs_results
-            unique_results = deduplicate_schedules(all_results)
-            final_schedules = [sched for ct, sched in unique_results][:MAX_RESULTS]
+                    dfs_results = dfs_relaxed(sorted_group_keys, 0, [], 0, group_options, max_remaining,
+                                              self.user_mandatory, self.frequency_prefs, self.count_optional_var.get())
+                    if dfs_results and any(ct == MAX_ECTS for ct, sched in dfs_results):
+                        relaxed_results = [(ct, sched) for ct, sched in dfs_results if ct == MAX_ECTS]
+                    else:
+                        max_total = max((ct for ct, sched in dfs_results), default=0)
+                        relaxed_results = [(ct, sched) for ct, sched in dfs_results if ct == max_total]
+                    chosen_schedule = (relaxed_results[0][1] if relaxed_results else [])
+                all_results = strict_results + dfs_results
+                unique_results = deduplicate_schedules(all_results)
+                final_schedules = [sched for ct, sched in unique_results][:MAX_RESULTS]
 
-            if not final_schedules:
-                self.log("No valid schedule found.")
-                pb.stop()
-                progress_win.destroy()
-                return
+                if not final_schedules:
+                    self.master.after(0, lambda: self.log("No valid schedule found."))
+                    pb.stop()
+                    progress_win.destroy()
+                    return
 
-            self.log(f"Final schedules generated: {len(final_schedules)} found.")
-            sample = final_schedules[0]
-            self.log(
-                f"Example: Total credits: {sum(c['ECTS'] for c in sample)}, Conflict Cost: {conflict_cost(sample)}")
+                self.master.after(0, lambda: self.log(f"Final schedules generated: {len(final_schedules)} found."))
+                sample = final_schedules[0]
+                self.master.after(0, lambda: self.log(
+                    f"Example: Total credits: {sum(c['ECTS'] for c in sample)}, Conflict Cost: {conflict_cost(sample)}"))
 
-            if replacement_target == "sections":
-                self.log("Applying local repair (sections)...")
+                # Apply schedule repair
                 for idx, sched in enumerate(final_schedules):
                     repaired = repair_schedule_with_priority(sched, group_valid_selections, priority_order)
                     final_schedules[idx] = repaired
-            elif replacement_target == "course":
-                self.log("Applying global repair (course replacement)...")
-                for idx, sched in enumerate(final_schedules):
-                    repaired = global_repair_schedule(sched, courses)
-                    final_schedules[idx] = repaired
 
-            if self.sa_var.get():
-                self.log("Applying simulated annealing improvement on the best schedule...")
-                best_schedule = final_schedules[0]
-                best_total = sum(c["ECTS"] for c in best_schedule)
-                sa_schedule, sa_total, sa_conflict = simulated_annealing_schedule_sa(
-                    sorted_group_keys, group_options, best_schedule, best_total
-                )
-                final_schedules[0] = sa_schedule
-                self.log(f"Simulated annealing improved schedule: Credits {sa_total}, Conflict Cost {sa_conflict}")
+                if self.sa_var.get():
+                    self.master.after(0, lambda: self.log("Applying simulated annealing improvement on the best schedule..."))
+                    best_schedule = final_schedules[0]
+                    best_total = sum(c["ECTS"] for c in best_schedule)
+                    sa_schedule, sa_total, sa_conflict = simulated_annealing_schedule_sa(
+                        sorted_group_keys, group_options, best_schedule, best_total
+                    )
+                    final_schedules[0] = sa_schedule
+                    self.master.after(0, lambda: self.log(f"Simulated annealing improved schedule: Credits {sa_total}, Conflict Cost {sa_conflict}"))
 
-            report_lines = []
-            for sched in final_schedules:
-                cost = conflict_cost(sched)
-                report_lines.append(f"Schedule with {sum(c['ECTS'] for c in sched)} credits: Conflict Cost = {cost}")
-            report_text = "\n".join(report_lines)
-            with open("conflict_report.txt", "w", encoding="utf-8") as f:
-                f.write(report_text)
-            self.log("Conflict report saved as conflict_report.txt.")
+                # Generate reports and files
+                report_lines = []
+                for sched in final_schedules:
+                    cost = conflict_cost(sched)
+                    report_lines.append(f"Schedule with {sum(c['ECTS'] for c in sched)} credits: Conflict Cost = {cost}")
+                report_text = "\n".join(report_lines)
+                with open("conflict_report.txt", "w", encoding="utf-8") as f:
+                    f.write(report_text)
+                self.master.after(0, lambda: self.log("Conflict report saved as conflict_report.txt."))
 
-            for idx, sched in enumerate(final_schedules, start=1):
-                sel_courses = sorted(set(c["code"] for c in sched))
-                unique_courses = compute_unique_courses(sched, final_schedules)
-                note = "Selected courses: " + ", ".join(sel_courses) + "\n"
-                note += "Unique courses: " + (", ".join(sorted(unique_courses)) if unique_courses else "None")
-                save_schedule_grid_as_jpeg(sched, filename=f"program{idx}.jpg", note_text=note)
-            save_all_selection_matrices_to_pdf(final_schedules, self.courses)
-            self.final_schedules = final_schedules
-            pb.stop()
-            progress_win.destroy()
-            self.log("All schedule JPEG files have been created.")
-            messagebox.showinfo("Success", "Scheduling completed successfully!")
-            self.log("You can now click 'Show Summary Chart' to view an interactive chart of the schedules.")
+                for idx, sched in enumerate(final_schedules, start=1):
+                    sel_courses = sorted(set(c["code"] for c in sched))
+                    unique_courses = compute_unique_courses(sched, final_schedules)
+                    note = "Selected courses: " + ", ".join(sel_courses) + "\n"
+                    note += "Unique courses: " + (", ".join(sorted(unique_courses)) if unique_courses else "None")
+                    save_schedule_grid_as_jpeg(sched, filename=f"program{idx}.jpg", note_text=note)
+
+                save_all_selection_matrices_to_pdf(final_schedules, source_courses)
+
+                # NEW: Auto-save run result to SQLite
+                try:
+                    schedule_codes = [[c["code"] for c in sched] for sched in final_schedules]
+                    planner_config = {
+                        "MAX_ECTS": MAX_ECTS,
+                        "ALLOW_CONFLICT": ALLOW_CONFLICT,
+                        "MAX_RESULTS": MAX_RESULTS,
+                        "replacement_target": replacement_target,
+                        "priority": priority_order,
+                        "used_source": "FILTERED" if hasattr(self, 'filtered_courses') and self.filtered_courses else "ALL",
+                        "source_count": len(source_courses)
+                    }
+                    profile = getattr(self, 'last_filter_profile', {})
+
+                    run_id = save_run_result_sqlite(SNAPSHOT_DB_PATH, schedule_codes, profile, planner_config)
+                    self.master.after(0, lambda: self.log(f"Run results auto-saved to database with ID {run_id}"))
+                    logger.info(f"Auto-saved run {run_id} with {len(final_schedules)} schedules")
+
+                except Exception as e:
+                    logger.error(f"Failed to auto-save run results: {e}")
+                    self.master.after(0, lambda: self.log(f"Warning: Failed to save run results: {e}"))
+
+                # Update UI in main thread
+                def update_ui():
+                    self.final_schedules = final_schedules
+                    pb.stop()
+                    progress_win.destroy()
+                    self.log("All schedule JPEG files have been created.")
+                    messagebox.showinfo("Success", "Scheduling completed successfully!")
+                    self.log("You can now click 'Live Schedule Chart' to view an interactive chart of the schedules.")
+
+                self.master.after(0, update_ui)
+
+            except Exception as e:
+                # Handle errors in worker thread
+                logger.error(f"Error in DFS worker thread: {e}")
+                self.master.after(0, lambda: messagebox.showerror("Scheduling Error", f"Scheduling failed: {e}"))
+                self.master.after(0, lambda: [pb.stop(), progress_win.destroy()])
 
         t = threading.Thread(target=run_dfs)
+        t.daemon = True  # Ensure thread doesn't prevent app exit
         t.start()
 
     # Legacy function maintained but not used elsewhere
@@ -1202,9 +1355,9 @@ class ScheduleAnalyticsChart:
         """Create grouped bar chart showing credits and conflicts."""
         offset = self.BAR_WIDTH / 2
         self.axes.bar([x - offset for x in indices], credits,
-                     self.BAR_WIDTH, label="Total Credits")
+                      self.BAR_WIDTH, label="Total Credits")
         self.axes.bar([x + offset for x in indices], conflicts,
-                     self.BAR_WIDTH, label="Conflict Count")
+                      self.BAR_WIDTH, label="Conflict Count")
 
     def _set_chart_labels(self):
         """Set chart title, labels and legend."""
@@ -1340,7 +1493,7 @@ class DetailedScheduleReport:
         """Highlight the selected course and dim others."""
         for cell in self.grid_container.winfo_children():
             for label in cell.winfo_children():
-                label.configure(fg="gray" if course_code not in label["text"] else "black")
+                label.configure()
 
     @staticmethod
     def get_course_color(course_type):
@@ -1401,6 +1554,9 @@ class CourseInfoPanel:
         return ", ".join(f"{day}-{period}" for day, period in schedule)
 
 
+
+
+
 # =============================================================================
 # Main GUI – Start the Application
 # =============================================================================
@@ -1412,3 +1568,4 @@ if __name__ == "__main__":
     # Splash ekranı kapandıktan sonra ana uygulama penceresi oluşturulacak
     app = SchedulerGUI(root)
     root.mainloop()
+
