@@ -6,7 +6,7 @@ Handles various Excel formats and Turkish course data.
 import pandas as pd
 import re
 import logging
-from typing import List, Dict, Tuple, Optional
+from typing import List, Dict, Tuple, Set
 
 from .models import Course, CourseType
 
@@ -108,47 +108,56 @@ def normalize_day_name(day_str: str) -> str:
 
 
 def parse_schedule_robust(schedule_str: str) -> List[Tuple[str, int]]:
-    """Parse schedule string with robust Turkish/English day handling."""
+    """Parse schedule string with robust Turkish/English day handling.
+
+    Improvements:
+    - Aggregate matches from all patterns instead of breaking after first.
+    - Deduplicate resulting (day, hour) tuples while preserving order.
+    - Stricter hour range validation (1-24 as defensive upper bound).
+    """
     if pd.isna(schedule_str) or not str(schedule_str).strip():
         return []
 
     schedule_clean = str(schedule_str).strip()
-    parsed_schedule = []
+    parsed_schedule: List[Tuple[str, int]] = []
+    seen: Set[Tuple[str, int]] = set()
 
-    # Enhanced regex patterns for various formats
     patterns = [
-        # Turkish format: "Pzt 1-2, Çrş 3-4"
-        r'(\w+)\s*(\d+)(?:-(\d+))?',
-        # Time ranges: "Pzt 09:30-11:20"
-        r'(\w+)\s*(\d{1,2}):?(\d{0,2})-(\d{1,2}):?(\d{0,2})',
-        # Simple format: "M1,T2"
-        r'([A-Za-zÇçĞğıİÖöŞşÜü]+)(\d+)',
+        r'(?:\b|^)([A-Za-zÇçĞğİıÖöŞşÜü]{1,10})\s*(\d+)(?:-(\d+))?(?:\b|$)',  # Day 1-2
+        r'(?:\b|^)([A-Za-zÇçĞğİıÖöŞşÜü]{1,10})\s*(\d{1,2}):?\d{0,2}-?(\d{1,2})?:?\d{0,2}(?:\b|$)',  # Day 09:30-11:20 (simplified capture)
+        r'([A-Za-zÇçĞğİıÖöŞşÜü]+)(\d+)',  # Fallback simple
     ]
 
     for pattern in patterns:
         matches = re.findall(pattern, schedule_clean)
-        if matches:
-            for match in matches:
-                try:
-                    if len(match) >= 2:
-                        day_raw = match[0]
-                        day_normalized = normalize_day_name(day_raw)
+        for match in matches:
+            try:
+                if len(match) >= 2:
+                    day_raw = match[0]
+                    day_normalized = normalize_day_name(day_raw)
 
-                        # Handle different hour formats
-                        if len(match) == 2:  # Simple format
-                            hour = int(match[1])
-                            parsed_schedule.append((day_normalized, hour))
-                        elif len(match) >= 3:  # Range format
-                            start_hour = int(match[1])
-                            end_hour = int(match[2]) if match[2] else start_hour
-
-                            for hour in range(start_hour, end_hour + 1):
-                                parsed_schedule.append((day_normalized, hour))
-
-                except (ValueError, IndexError) as e:
-                    logger.warning(f"Error parsing schedule component '{match}': {e}")
-                    continue
-            break
+                    # Range variant (pattern 1)
+                    if len(match) >= 3 and match[2]:
+                        start_hour = int(match[1])
+                        end_hour = int(match[2])
+                        if start_hour > end_hour:
+                            start_hour, end_hour = end_hour, start_hour
+                        for hour in range(start_hour, end_hour + 1):
+                            if 1 <= hour <= 24:
+                                tup = (day_normalized, hour)
+                                if tup not in seen:
+                                    seen.add(tup)
+                                    parsed_schedule.append(tup)
+                    else:
+                        hour = int(match[1])
+                        if 1 <= hour <= 24:
+                            tup = (day_normalized, hour)
+                            if tup not in seen:
+                                seen.add(tup)
+                                parsed_schedule.append(tup)
+            except (ValueError, IndexError) as e:
+                logger.debug(f"Schedule parse component skipped: {match} ({e})")
+                continue
 
     if not parsed_schedule:
         logger.warning(f"Could not parse schedule: '{schedule_str}'")
@@ -157,38 +166,53 @@ def parse_schedule_robust(schedule_str: str) -> List[Tuple[str, int]]:
 
 
 def determine_course_type(code: str, name: str) -> CourseType:
-    """Determine course type from code and name."""
+    """Determine course type from code and name.
+
+    Improvements:
+    - Avoid false positives where 'ps' occurs inside legitimate codes (e.g., 'PHYS').
+    - Use word boundary / separator heuristics.
+    """
     code_lower = code.lower()
     name_lower = name.lower()
 
-    # Check for lab indicators
-    if any(indicator in code_lower for indicator in ['lab', 'laboratuvar', 'uygulama']):
+    # Lab indicators
+    if re.search(r'(?:\b|[_\-.])(lab|laboratuvar|uygulama)(?:\b|[_\-.])?', code_lower) or \
+       re.search(r'\b(laboratuvar|lab|uygulama)\b', name_lower):
         return CourseType.LAB
 
-    if any(indicator in name_lower for indicator in ['laboratuvar', 'lab', 'uygulama']):
-        return CourseType.LAB
-
-    # Check for PS (Problem Session) indicators
-    if any(indicator in code_lower for indicator in ['ps', 'problem', 'çözüm']):
+    # PS indicators (problem / practice sessions) with boundaries
+    if re.search(r'(?:\b|[_\-.])(ps|problem|çözüm)(?:\b|[_\-.])?', code_lower) or \
+       re.search(r'\b(problem|çözüm|alıştırma)\b', name_lower):
         return CourseType.PS
 
-    if any(indicator in name_lower for indicator in ['problem', 'çözüm', 'alıştırma']):
-        return CourseType.PS
-
-    # Default to lecture
     return CourseType.LECTURE
 
 
 def extract_main_code(full_code: str) -> str:
-    """Extract main course code from full code (remove section indicators)."""
+    """Extract main course code from full code (remove section indicators) safely.
+
+    Revised strategy:
+    - Remove trailing section patterns like .01 / -02 / _03.
+    - Remove trailing explicit section letters for LAB/PS only if separated by a delimiter.
+    - Do NOT strip generic trailing uppercase letters blindly.
+    - Preserve base code to avoid over-grouping (e.g., PHYS vs PHY).
+    """
     if not full_code:
         return ""
 
-    # Remove common section indicators
-    main_code = re.sub(r'[.\-_]\d+$', '', full_code)  # Remove .01, -02, _03 etc.
-    main_code = re.sub(r'[A-Z]{2,3}$', '', main_code)  # Remove PS, LAB suffixes
+    code = full_code.strip()
 
-    return main_code.strip()
+    # Remove classic numeric section suffix: delimiters followed by 2 digits
+    code = re.sub(r'([._\-])(\d{2})$', '', code)
+
+    # Remove _LAB / -LAB / .LAB etc.
+    code = re.sub(r'([._\-])(LAB|PS)$', '', code, flags=re.IGNORECASE)
+
+    # Avoid stripping if resulting code becomes too short (<4 chars) – keep original
+    if len(code) < 4:
+        return full_code.strip()
+
+    return code.strip()
 
 
 def process_excel_robust(file_path: str, sheet_name: str = "Sheet1") -> List[Course]:
@@ -198,12 +222,8 @@ def process_excel_robust(file_path: str, sheet_name: str = "Sheet1") -> List[Cou
     try:
         logger.info(f"Loading Excel file: {file_path}, sheet: {sheet_name}")
 
-        # Read Excel file with multiple encoding attempts
-        try:
-            df = pd.read_excel(file_path, sheet_name=sheet_name, engine='openpyxl')
-        except UnicodeDecodeError:
-            logger.warning("UTF-8 failed, trying latin-1 encoding")
-            df = pd.read_excel(file_path, sheet_name=sheet_name, engine='openpyxl', encoding='latin-1')
+        # Read Excel file (openpyxl engine). Pandas handles encoding internally for xlsx.
+        df = pd.read_excel(file_path, sheet_name=sheet_name, engine='openpyxl')
 
         logger.info(f"Loaded {len(df)} rows from Excel")
 
@@ -383,7 +403,7 @@ def export_course_data_summary(courses: List[Course]) -> Dict:
 
     # Schedule coverage
     courses_with_schedule = sum(1 for c in courses if c.schedule)
-    summary["schedule_coverage"] = round((courses_with_schedule / len(courses)) * 100, 2)
+    summary["schedule_coverage"] = round((courses_with_schedule / len(courses)) * 100, 2)  # type: ignore
 
     # Sample courses for debugging
     summary["sample_courses"] = [
@@ -400,4 +420,3 @@ def export_course_data_summary(courses: List[Course]) -> Dict:
     ]
 
     return summary
-

@@ -3,7 +3,7 @@ Core data models for the course scheduler application.
 """
 
 from dataclasses import dataclass, field
-from typing import List, Tuple, Dict, Optional, Set
+from typing import List, Tuple, Dict, Set
 from enum import Enum
 
 
@@ -40,6 +40,10 @@ class Course:
     def has_lecture(self) -> bool:
         """Check if this is a lecture course."""
         return self.course_type == CourseType.LECTURE
+
+    @property
+    def type(self):  # legacy compatibility for rules.py expecting .type
+        return self.course_type
 
     def conflicts_with(self, other: 'Course') -> bool:
         """Check if this course conflicts with another course."""
@@ -148,16 +152,36 @@ class FilterProfile:
         )
 
 
+class SelectionState(Enum):
+    """Tri-state selection for legacy rules integration."""
+    INCLUDE = "include"
+    EXCLUDE = "exclude"
+    NEUTRAL = "neutral"
+
+
+@dataclass
+class CourseSelection:
+    """Represents a user's selection state for a course group (legacy compatibility)."""
+    main_code: str
+    state: SelectionState = SelectionState.NEUTRAL
+
+
 @dataclass
 class SchedulerConfig:
     """Configuration for the scheduler."""
     max_ects: int = 31
-    allow_conflict: int = 1
+    allow_conflict: int = 1  # Pairwise conflict count allowed
     max_results: int = 5
     priority: List[str] = field(default_factory=lambda: ["lecture", "ps", "lab"])
     replacement_target: str = "sections"  # "sections" or "course"
     use_simulated_annealing: bool = False
     count_optional: bool = False
+
+    # New configuration flags
+    require_all_sections: bool = False  # If True, PS/Lab required when present (old behavior)
+    optimize_diversity: bool = True     # Enable diversity filtering
+    balance_workload: bool = True       # Enable workload balancing
+    auto_limit_weekend_bias: bool = True  # Future use: scoring adjustment
 
     def to_dict(self) -> Dict:
         """Convert to dictionary format."""
@@ -168,21 +192,16 @@ class SchedulerConfig:
             "replacement_target": self.replacement_target,
             "priority": self.priority,
             "use_simulated_annealing": self.use_simulated_annealing,
-            "count_optional": self.count_optional
+            "count_optional": self.count_optional,
+            "require_all_sections": self.require_all_sections,
+            "optimize_diversity": self.optimize_diversity,
+            "balance_workload": self.balance_workload,
+            "auto_limit_weekend_bias": self.auto_limit_weekend_bias,
         }
 
 
-@dataclass
-class UserPreferences:
-    """User preferences for course selection."""
-    mandatory_courses: Set[str] = field(default_factory=set)
-    frequency_prefs: Dict[str, Frequency] = field(default_factory=dict)
-    teacher_prefs: Dict[str, str] = field(default_factory=dict)
-    include_extra: bool = True
-
-    def get_frequency(self, course_code: str) -> Frequency:
-        """Get frequency preference for a course."""
-        return self.frequency_prefs.get(course_code, Frequency.OFTEN)
+# Backward compatibility alias for legacy rules module
+Config = SchedulerConfig
 
 
 @dataclass
@@ -190,21 +209,31 @@ class Schedule:
     """Represents a complete course schedule."""
     courses: List[Course]
     total_ects: int = 0
-    conflict_cost: int = 0
+    conflict_cost: int = 0  # Pairwise conflict count
+    slot_conflict_cost: int = 0  # Overlapping slot overage count
 
     def __post_init__(self):
         """Calculate totals after initialization."""
         self.total_ects = sum(c.ects for c in self.courses)
         self.conflict_cost = self.calculate_conflict_cost()
+        self.slot_conflict_cost = self.calculate_slot_conflict_cost()
 
     def calculate_conflict_cost(self) -> int:
-        """Calculate the conflict cost of this schedule."""
+        """Calculate the pairwise conflict cost of this schedule."""
         conflicts = 0
         for i, course1 in enumerate(self.courses):
             for course2 in self.courses[i+1:]:
                 if course1.conflicts_with(course2):
                     conflicts += 1
         return conflicts
+
+    def calculate_slot_conflict_cost(self) -> int:
+        """Calculate slot-based overlaps (sum over max(0, count-1) per slot)."""
+        slot_counts: Dict[Tuple[str, int], int] = {}
+        for course in self.courses:
+            for slot in course.schedule:
+                slot_counts[slot] = slot_counts.get(slot, 0) + 1
+        return sum(max(0, c - 1) for c in slot_counts.values())
 
     def get_daily_schedule(self) -> Dict[str, List[Tuple[int, Course]]]:
         """Get courses organized by day and time."""
@@ -231,6 +260,7 @@ class Schedule:
             "courses": [c.to_dict() for c in self.courses],
             "total_ects": self.total_ects,
             "conflict_cost": self.conflict_cost,
+            "slot_conflict_cost": self.slot_conflict_cost,
             "has_conflicts": self.has_conflicts()
         }
 
@@ -361,6 +391,18 @@ class ConflictReport:
             "time_conflicts": self.time_conflicts,
             "severity_breakdown": self.severity_breakdown
         }
+
+
+@dataclass
+class UserPreferences:
+    """User preferences for course selection."""
+    mandatory_courses: Set[str] = field(default_factory=set)
+    frequency_prefs: Dict[str, Frequency] = field(default_factory=dict)
+    teacher_prefs: Dict[str, str] = field(default_factory=dict)
+    include_extra: bool = True
+
+    def get_frequency(self, course_code: str) -> Frequency:
+        return self.frequency_prefs.get(course_code, Frequency.OFTEN)
 
 
 # Compatibility class for backward compatibility

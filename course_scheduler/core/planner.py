@@ -5,10 +5,11 @@ Core scheduling algorithms including DFS and Simulated Annealing.
 import random
 import math
 import logging
-from typing import List, Dict, Set, Tuple, Optional
+from typing import List, Dict, Optional
 from collections import defaultdict
 
 from .models import Course, CourseGroup, Schedule, SchedulerConfig, UserPreferences, Frequency
+from . import rules  # integrate legacy rules usage
 
 logger = logging.getLogger(__name__)
 
@@ -34,17 +35,44 @@ class CourseScheduler:
             for code, course_list in groups.items()
         }
 
-    def generate_valid_group_selections(self, group: CourseGroup) -> List[List[Course]]:
-        """Generate all valid selections for a course group."""
-        if not group.has_lecture:
-            return []
+    def _get_course_constraints(self, main_code: str) -> Dict[str, bool]:
+        """Get constraints for a course (PS/Lab requirements) honoring config.
 
-        valid_selections = []
+        If config.require_all_sections is False, PS/Lab become optional even if they exist.
+        """
+        group = self.course_groups.get(main_code)
+        if not group:
+            return {"must_ps": False, "must_lab": False}
+
+        if self.config.require_all_sections:
+            return {
+                "must_ps": len(group.ps_sections) > 0,
+                "must_lab": len(group.lab_sections) > 0
+            }
+        else:
+            return {"must_ps": False, "must_lab": False}
+
+    def generate_valid_group_selections(self, group: CourseGroup) -> List[List[Course]]:
+        """Generate all valid selections for a course group with optional sections.
+
+        Enhancement:
+        - If no lecture present, treat each non-lecture course as a standalone selectable unit.
+        - Avoid duplicate selections.
+        """
+        if not group.has_lecture:
+            unique = []
+            seen_codes = set()
+            for c in group.courses:
+                if c.code not in seen_codes:
+                    seen_codes.add(c.code)
+                    unique.append([c])
+            return unique
+
+        valid_selections: List[List[Course]] = []
+        seen_signature = set()
 
         for lecture in group.lectures:
             base_selection = [lecture]
-
-            # Get constraints for this course
             constraints = self._get_course_constraints(lecture.main_code)
             must_ps = constraints.get("must_ps", False)
             must_lab = constraints.get("must_lab", False)
@@ -52,7 +80,6 @@ class CourseScheduler:
             ps_options = group.ps_sections if must_ps else [None] + group.ps_sections
             lab_options = group.lab_sections if must_lab else [None] + group.lab_sections
 
-            # Skip if required sections are missing
             if must_ps and not group.ps_sections:
                 continue
             if must_lab and not group.lab_sections:
@@ -65,7 +92,10 @@ class CourseScheduler:
                         selection.append(ps)
                     if lab is not None:
                         selection.append(lab)
-                    valid_selections.append(selection)
+                    sig = tuple(sorted(c.code for c in selection))
+                    if sig not in seen_signature:
+                        seen_signature.add(sig)
+                        valid_selections.append(selection)
 
         return valid_selections
 
@@ -88,67 +118,67 @@ class CourseScheduler:
                 if self.group_options[main_code] and self.group_options[main_code][0] is not None:
                     self.group_options[main_code] = [self.group_options[main_code][0]]
 
-    def _get_course_constraints(self, main_code: str) -> Dict[str, bool]:
-        """Get constraints for a course (PS/Lab requirements)."""
-        group = self.course_groups.get(main_code)
-        if not group:
-            return {"must_ps": False, "must_lab": False}
-
-        return {
-            "must_ps": len(group.ps_sections) > 0,
-            "must_lab": len(group.lab_sections) > 0
-        }
-
     def calculate_schedule_fitness(self, schedule: Schedule) -> float:
-        """Calculate fitness score for a schedule (higher is better)."""
+        """Calculate fitness score for a schedule (higher is better).
+
+        Adjusted weights, includes slot conflict penalties and mild weekend balancing.
+        """
         fitness = 0.0
 
-        # Base fitness from ECTS
-        fitness += schedule.total_ects * 10
+        # Base fitness from ECTS (prefer near but not over limit)
+        distance = max(0, self.config.max_ects - schedule.total_ects)
+        fitness += max(0, 500 - distance * 15)  # non-linear diminishing
 
-        # Penalty for conflicts
-        fitness -= schedule.conflict_cost * 50
+        # Pairwise conflict penalty
+        fitness -= schedule.conflict_cost * 80
+        # Slot overlap penalty (harsher for stacking same slot)
+        fitness -= schedule.slot_conflict_cost * 40
 
-        # Bonus for user preferences
+        # Preference weighting
         for course in schedule.courses:
             frequency = self.preferences.get_frequency(course.main_code)
             if frequency == Frequency.ALWAYS:
-                fitness += 100
+                fitness += 60
             elif frequency == Frequency.OFTEN:
-                fitness += 50
+                fitness += 30
             elif frequency == Frequency.RARELY:
-                fitness -= 25
+                fitness -= 20
             elif frequency == Frequency.NEVER:
-                fitness -= 100
+                fitness -= 80
 
-        # Penalty for exceeding ECTS limit
+        # Over-limit harsh penalty
         if schedule.total_ects > self.config.max_ects:
-            fitness -= (schedule.total_ects - self.config.max_ects) * 100
+            fitness -= (schedule.total_ects - self.config.max_ects) * 120
 
-        # Bonus for balanced daily schedule
+        # Workload balance (weekdays only)
         daily_schedule = schedule.get_daily_schedule()
-        daily_counts = [len(daily_schedule.get(day, [])) for day in ["M", "T", "W", "Th", "F"]]
+        weekday_order = ["M", "T", "W", "Th", "F"]
+        daily_counts = [len(daily_schedule.get(day, [])) for day in weekday_order]
         if daily_counts:
             avg_daily = sum(daily_counts) / len(daily_counts)
-            variance = sum((count - avg_daily) ** 2 for count in daily_counts) / len(daily_counts)
-            fitness += max(0, 20 - variance)  # Bonus for lower variance
+            variance = sum((c - avg_daily) ** 2 for c in daily_counts) / len(daily_counts)
+            fitness += max(0, 100 - variance * 10)
+
+        # Weekend usage moderation (optional future flag)
+        if self.config.auto_limit_weekend_bias:
+            weekend_load = len(daily_schedule.get("Sa", [])) + len(daily_schedule.get("Su", []))
+            if weekend_load > 0:
+                fitness -= weekend_load * 10
 
         return fitness
 
     def generate_schedules_dfs(self, courses: List[Course]) -> List[Schedule]:
-        """Generate schedules using Depth-First Search with strict conflict control."""
+        """Generate schedules using Depth-First Search with strict conflict control and rules validation."""
         logger.info("Starting DFS schedule generation")
-
         self.build_course_groups(courses)
         self.build_group_options()
 
-        schedules = []
+        schedules: List[Schedule] = []
         main_codes = list(self.group_options.keys())
 
         logger.info(f"DFS Config: max_ects={self.config.max_ects}, allow_conflict={self.config.allow_conflict}")
 
         def calculate_actual_conflicts(courses_list: List[Course]) -> int:
-            """Calculate actual number of time conflicts between courses."""
             conflicts = 0
             for i, course1 in enumerate(courses_list):
                 for course2 in courses_list[i+1:]:
@@ -158,24 +188,34 @@ class CourseScheduler:
 
         def dfs(index: int, current_courses: List[Course]):
             # Stop if we have enough schedules
-            if len(schedules) >= self.config.max_results:
+            if len(schedules) >= self.config.max_results * 4:  # generate surplus for optimizer diversity
                 return
 
             # Base case: processed all course groups
             if index == len(main_codes):
-                if current_courses:
-                    # Calculate actual conflicts
-                    actual_conflicts = calculate_actual_conflicts(current_courses)
-                    current_ects = sum(c.ects for c in current_courses)
+                if not current_courses:
+                    return
 
-                    # Strict validation
-                    if (actual_conflicts <= self.config.allow_conflict and
-                        current_ects <= self.config.max_ects):
+                # Calculate actual conflicts
+                actual_conflicts = calculate_actual_conflicts(current_courses)
+                current_ects = sum(c.ects for c in current_courses)
 
-                        schedule = Schedule(courses=current_courses.copy())
+                # Strict validation
+                if (actual_conflicts <= self.config.allow_conflict and
+                    current_ects <= self.config.max_ects):
+
+                    schedule = Schedule(courses=current_courses.copy())
+
+                    # Legacy rules validation
+                    valid, violations = rules.validate_schedule_constraints(schedule.courses, self.config)
+                    if valid:
+                        score = rules.calculate_schedule_score(schedule.courses, self.config)
+                        if not hasattr(schedule, 'metadata'):
+                            schedule.metadata = {}
+                        schedule.metadata['rule_score'] = score
                         schedules.append(schedule)
-                        logger.debug(f"Valid schedule found: {len(current_courses)} courses, "
-                                   f"{current_ects} ECTS, {actual_conflicts} conflicts")
+                    else:
+                        logger.debug(f"Rules rejected schedule: {violations}")
                 return
 
             main_code = main_codes[index]
@@ -187,8 +227,8 @@ class CourseScheduler:
                     # Skip this course group
                     dfs(index + 1, current_courses)
                 else:
-                    # Try adding this course group
-                    new_ects = sum(c.ects for c in current_courses) + sum(c.ects for c in option)
+                    added_ects = sum(c.ects for c in option)
+                    new_ects = sum(c.ects for c in current_courses) + added_ects
 
                     # Early ECTS check
                     if new_ects > self.config.max_ects:
@@ -196,105 +236,103 @@ class CourseScheduler:
 
                     # Create temporary course list to check conflicts
                     temp_courses = current_courses + option
-                    temp_conflicts = calculate_actual_conflicts(temp_courses)
-
-                    # Early conflict check - strict enforcement
-                    if temp_conflicts > self.config.allow_conflict:
+                    if calculate_actual_conflicts(temp_courses) > self.config.allow_conflict:
                         continue
 
-                    # Validate mandatory courses requirement
-                    if main_code in self.preferences.mandatory_courses:
-                        # Mandatory course - must include some option
-                        current_courses.extend(option)
-                        dfs(index + 1, current_courses)
-                        # Backtrack
-                        for _ in option:
-                            current_courses.pop()
-                    else:
-                        # Optional course - try including it
-                        current_courses.extend(option)
-                        dfs(index + 1, current_courses)
-                        # Backtrack
-                        for _ in option:
-                            current_courses.pop()
+                    current_courses.extend(option)
+                    dfs(index + 1, current_courses)
+                    for _ in option:
+                        current_courses.pop()
 
-        # Start DFS
         dfs(0, [])
 
-        # Sort schedules by fitness score
-        schedules.sort(key=lambda s: self.calculate_schedule_fitness(s), reverse=True)
+        # Sort by combined fitness (modern) then legacy rule score if present
+        schedules.sort(key=lambda s: (self.calculate_schedule_fitness(s), getattr(s.metadata, 'rule_score', 0)), reverse=True)
 
-        # Validate all results one more time (paranoid check)
-        valid_schedules = []
-        for schedule in schedules:
-            actual_conflicts = calculate_actual_conflicts(schedule.courses)
-            if (actual_conflicts <= self.config.allow_conflict and
-                schedule.total_ects <= self.config.max_ects):
-                valid_schedules.append(schedule)
-            else:
-                logger.warning(f"Invalid schedule filtered out: {actual_conflicts} conflicts, "
-                             f"{schedule.total_ects} ECTS")
-
-        logger.info(f"DFS generated {len(valid_schedules)} valid schedules (filtered {len(schedules) - len(valid_schedules)})")
-        return valid_schedules[:self.config.max_results]
+        # De-duplicate by code signature
+        unique: Dict[frozenset, Schedule] = {}
+        for s in schedules:
+            sig = frozenset(c.code for c in s.courses)
+            if sig not in unique:
+                unique[sig] = s
+        final_list = list(unique.values())
+        logger.info(f"DFS produced {len(final_list)} unique rule-valid schedules (raw {len(schedules)})")
+        return final_list[: max(self.config.max_results * 2, self.config.max_results)]
 
     def generate_schedules_sa(self, courses: List[Course]) -> List[Schedule]:
-        """Generate schedules using Simulated Annealing."""
+        """Generate schedules using Simulated Annealing with constraint enforcement and rules validation."""
         logger.info("Starting Simulated Annealing schedule generation")
-
         self.build_course_groups(courses)
         self.build_group_options()
-
         if not self.group_options:
             return []
-
-        # Generate initial solution
         current_solution = self._generate_random_solution()
         if not current_solution:
             return []
-
         best_solution = current_solution
         best_fitness = self.calculate_schedule_fitness(current_solution)
-
-        # SA parameters
-        initial_temp = 1000.0
+        if not hasattr(best_solution, 'metadata'):
+            best_solution.metadata = {}
+        best_solution.metadata['rule_score'] = rules.calculate_schedule_score(best_solution.courses, self.config)
+        initial_temp = 300.0
         final_temp = 1.0
-        cooling_rate = 0.95
-        max_iterations = 1000
-
+        cooling_rate = 0.92
+        max_iterations = 800
         temperature = initial_temp
         solutions = [best_solution]
-
-        for iteration in range(max_iterations):
-            # Generate neighbor solution
+        seen_signatures = {frozenset(c.code for c in best_solution.courses)}
+        for _ in range(max_iterations):
             neighbor = self._generate_neighbor_solution(current_solution)
             if not neighbor:
+                temperature *= cooling_rate
+                if temperature < final_temp:
+                    break
                 continue
-
+            if (neighbor.total_ects > self.config.max_ects or
+                neighbor.conflict_cost > self.config.allow_conflict or
+                neighbor.slot_conflict_cost > self.config.allow_conflict):
+                temperature *= cooling_rate
+                if temperature < final_temp:
+                    break
+                continue
+            valid, violations = rules.validate_schedule_constraints(neighbor.courses, self.config)
+            if not valid:
+                temperature *= cooling_rate
+                if temperature < final_temp:
+                    break
+                continue
+            if not hasattr(neighbor, 'metadata'):
+                neighbor.metadata = {}
+            neighbor.metadata['rule_score'] = rules.calculate_schedule_score(neighbor.courses, self.config)
             current_fitness = self.calculate_schedule_fitness(current_solution)
             neighbor_fitness = self.calculate_schedule_fitness(neighbor)
-
-            # Accept or reject neighbor
-            if neighbor_fitness > current_fitness:
+            accept = False
+            if neighbor_fitness >= current_fitness:
+                accept = True
+            else:
+                try:
+                    delta = neighbor_fitness - current_fitness
+                    probability = math.exp(delta / max(0.001, temperature))
+                    if random.random() < probability:
+                        accept = True
+                except OverflowError:
+                    accept = False
+            if accept:
                 current_solution = neighbor
                 if neighbor_fitness > best_fitness:
                     best_solution = neighbor
                     best_fitness = neighbor_fitness
-                    if len(solutions) < self.config.max_results:
-                        solutions.append(neighbor)
-            else:
-                # Accept worse solution with probability
-                probability = math.exp((neighbor_fitness - current_fitness) / temperature)
-                if random.random() < probability:
-                    current_solution = neighbor
-
-            # Cool down
+                    sig = frozenset(c.code for c in neighbor.courses)
+                    if sig not in seen_signatures:
+                        seen_signatures.add(sig)
+                        if len(solutions) < self.config.max_results * 3:
+                            solutions.append(neighbor)
             temperature *= cooling_rate
             if temperature < final_temp:
                 break
-
-        logger.info(f"SA generated {len(solutions)} unique schedules")
-        return solutions[:self.config.max_results]
+        filtered = [s for s in solutions if s.total_ects <= self.config.max_ects and s.conflict_cost <= self.config.allow_conflict and s.slot_conflict_cost <= self.config.allow_conflict]
+        logger.info(f"SA generated {len(filtered)} valid schedules (kept {len(filtered)}/{len(solutions)})")
+        return filtered[: max(self.config.max_results * 2, self.config.max_results)]
 
     def _generate_random_solution(self) -> Optional[Schedule]:
         """Generate a random valid solution."""
@@ -364,7 +402,7 @@ class CourseScheduler:
         return Schedule(courses=new_courses) if new_courses else None
 
     def generate_schedules(self, courses: List[Course]) -> List[Schedule]:
-        """Main method to generate schedules."""
+        """Main method to generate schedules with post-optimization."""
         if not courses:
             logger.warning("No courses provided for scheduling")
             return []
@@ -375,25 +413,29 @@ class CourseScheduler:
 
         try:
             if self.config.use_simulated_annealing:
-                schedules = self.generate_schedules_sa(courses)
+                base_schedules = self.generate_schedules_sa(courses)
             else:
-                schedules = self.generate_schedules_dfs(courses)
+                base_schedules = self.generate_schedules_dfs(courses)
 
-            # Filter and validate results
-            valid_schedules = []
-            for schedule in schedules:
-                if schedule.courses:  # Ensure schedule has courses
-                    # Validate mandatory courses
-                    schedule_main_codes = set(c.main_code for c in schedule.courses)
-                    missing_mandatory = self.preferences.mandatory_courses - schedule_main_codes
+            validated: List[Schedule] = []
+            for schedule in base_schedules:
+                schedule_main_codes = {c.main_code for c in schedule.courses}
+                if not (self.preferences.mandatory_courses - schedule_main_codes):
+                    validated.append(schedule)
 
-                    if not missing_mandatory:  # All mandatory courses present
-                        valid_schedules.append(schedule)
-                    else:
-                        logger.debug(f"Schedule missing mandatory courses: {missing_mandatory}")
+            validated.sort(key=lambda s: (self.calculate_schedule_fitness(s), getattr(getattr(s, 'metadata', {}), 'rule_score', 0)), reverse=True)
 
-            logger.info(f"Generated {len(valid_schedules)} valid schedules")
-            return valid_schedules
+            optimizer = AdvancedScheduleOptimizer(self.config, self.preferences)
+            optimized = validated
+            if self.config.optimize_diversity:
+                optimized = optimizer.optimize_schedule_diversity(optimized)
+            if self.config.balance_workload:
+                optimized = optimizer.balance_workload(optimized)
+
+            optimized = optimized[: self.config.max_results]
+
+            logger.info(f"Generated {len(optimized)} optimized schedules")
+            return optimized
 
         except Exception as e:
             logger.error(f"Error generating schedules: {e}")

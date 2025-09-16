@@ -168,6 +168,23 @@ class SchedulerApplication:
         ttk.Checkbutton(advanced_frame, text="Count Optional Courses in Credit Calculation",
                        variable=self.count_optional_var).pack(anchor="w")
 
+        # New optimization toggles
+        self.require_all_sections_var = tk.BooleanVar(value=self.config.require_all_sections)
+        ttk.Checkbutton(advanced_frame, text="Require PS/Lab When Available",
+                        variable=self.require_all_sections_var).pack(anchor="w")
+
+        self.optimize_diversity_var = tk.BooleanVar(value=self.config.optimize_diversity)
+        ttk.Checkbutton(advanced_frame, text="Optimize Diversity",
+                        variable=self.optimize_diversity_var).pack(anchor="w")
+
+        self.balance_workload_var = tk.BooleanVar(value=self.config.balance_workload)
+        ttk.Checkbutton(advanced_frame, text="Balance Workload",
+                        variable=self.balance_workload_var).pack(anchor="w")
+
+        self.weekend_bias_var = tk.BooleanVar(value=self.config.auto_limit_weekend_bias)
+        ttk.Checkbutton(advanced_frame, text="Penalize Weekend Load",
+                        variable=self.weekend_bias_var).pack(anchor="w")
+
         # Load button
         ttk.Button(main_frame, text="Load Courses",
                   command=self.load_courses, style="Accent.TButton").pack(pady=10)
@@ -389,6 +406,10 @@ class SchedulerApplication:
         self.config.replacement_target = self.target_var.get()
         self.config.use_simulated_annealing = self.sa_var.get()
         self.config.count_optional = self.count_optional_var.get()
+        self.config.require_all_sections = self.require_all_sections_var.get()
+        self.config.optimize_diversity = self.optimize_diversity_var.get()
+        self.config.balance_workload = self.balance_workload_var.get()
+        self.config.auto_limit_weekend_bias = self.weekend_bias_var.get()
 
     def set_filtered_courses(self, courses: List[Course], profile: FilterProfile):
         """Set filtered courses from course preview."""
@@ -462,40 +483,40 @@ class SchedulerApplication:
         """Handle successful schedule generation."""
         self.final_schedules = schedules
 
-        try:
-            # Update dashboard with schedule data
-            if hasattr(self, 'dashboard'):
-                self.dashboard.set_schedules(schedules)
+        def exporter():
+            try:
+                # Update dashboard with schedule data (main thread via after)
+                if hasattr(self, 'dashboard'):
+                    self.master.after(0, lambda: self.dashboard.set_schedules(schedules))
 
-            # Export all schedules
-            ScheduleExporter.export_all_schedules(schedules, source_courses)
+                # Export all schedules (CPU/IO heavy)
+                ScheduleExporter.export_all_schedules(schedules, source_courses)
 
-            # Auto-save run results
-            schedule_codes = [[c.code for c in s.courses] for s in schedules]
-
-            # Save snapshot with results
-            if self.last_filter_profile:
-                try:
-                    snapshot_id = self.snapshot_manager.save_results_snapshot(
-                        schedule_codes, self.preferences, self.last_filter_profile
-                    )
-                    logger.info(f"Saved results snapshot {snapshot_id}")
-                except Exception as e:
-                    logger.warning(f"Failed to save results snapshot: {e}")
-
-            self.status_var.set(f"Generated {len(schedules)} schedules successfully")
-            logger.info(f"Successfully generated {len(schedules)} schedules")
-
-            # Show success message
-            messagebox.showinfo("Success",
+                # After export finish
+                self.master.after(0, lambda: self.status_var.set(f"Generated {len(schedules)} schedules successfully"))
+                self.master.after(0, lambda: logger.info(f"Successfully generated {len(schedules)} schedules"))
+                self.master.after(0, lambda: messagebox.showinfo("Success",
                               f"Generated {len(schedules)} optimal schedules!\n"
-                              f"Check the exported files for details.")
+                              f"Check the exported files for details."))
+            except Exception as e:
+                err = f"Error processing schedules: {e}"
+                logger.error(err)
+                self.master.after(0, lambda: messagebox.showerror("Processing Error", err))
+                self.master.after(0, lambda: self.status_var.set("Error processing schedules"))
 
-        except Exception as e:
-            error_msg = f"Error processing schedules: {str(e)}"
-            logger.error(error_msg)
-            messagebox.showerror("Processing Error", error_msg)
-            self.status_var.set("Error processing schedules")
+        # Run exporter in background to keep UI responsive
+        threading.Thread(target=exporter, daemon=True).start()
+
+        # Save snapshot with results (non-blocking quick)
+        schedule_codes = [[c.code for c in s.courses] for s in schedules]
+        if self.last_filter_profile:
+            try:
+                snapshot_id = self.snapshot_manager.save_results_snapshot(
+                    schedule_codes, self.preferences, self.last_filter_profile
+                )
+                logger.info(f"Saved results snapshot {snapshot_id}")
+            except Exception as e:
+                logger.warning(f"Failed to save results snapshot: {e}")
 
     def _on_scheduling_failed(self):
         """Handle scheduling failure."""
