@@ -1,0 +1,156 @@
+{
+  "timestamp": "2025-11-26_13-50-35",
+  "categories": {
+    "database": {
+      "passed": 9,
+      "failed": 0,
+      "total": 9,
+      "errors": []
+    },
+    "tabs": {
+      "passed": 9,
+      "failed": 0,
+      "total": 9,
+      "errors": []
+    },
+    "algorithms": {
+      "passed": 13,
+      "failed": 0,
+      "total": 13,
+      "errors": []
+    },
+    "memory": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "errors": []
+    },
+    "exceptions": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "errors": []
+    }
+  },
+  "performance": [
+    {
+      "operation": "Course Create",
+      "duration_ms": 0.0007152557373046875,
+      "memory_mb": 154.58984375,
+      "timestamp": "2025-11-26T13:50:38.066351"
+    },
+    {
+      "operation": "Algorithm::AStarScheduler",
+      "duration_ms": 0.06198883056640625,
+      "memory_mb": 0.00390625,
+      "timestamp": "2025-11-26T13:50:41.285837"
+    },
+    {
+      "operation": "Algorithm::BFSScheduler",
+      "duration_ms": 0.03933906555175781,
+      "memory_mb": 0.0,
+      "timestamp": "2025-11-26T13:50:41.286018"
+    },
+    {
+      "operation": "Algorithm::ConstraintProgrammingScheduler",
+      "duration_ms": 0.042438507080078125,
+      "memory_mb": 0.0,
+      "timestamp": "2025-11-26T13:50:41.286225"
+    },
+    {
+      "operation": "Algorithm::DFSScheduler",
+      "duration_ms": 0.04482269287109375,
+      "memory_mb": 0.0,
+      "timestamp": "2025-11-26T13:50:41.286414"
+    },
+    {
+      "operation": "Algorithm::DijkstraScheduler",
+      "duration_ms": 0.057220458984375,
+      "memory_mb": 0.0,
+      "timestamp": "2025-11-26T13:50:41.286651"
+    },
+    {
+      "operation": "Algorithm::GeneticAlgorithmScheduler",
+      "duration_ms": 0.04315376281738281,
+      "memory_mb": 0.0,
+      "timestamp": "2025-11-26T13:50:41.286845"
+    },
+    {
+      "operation": "Algorithm::GreedyScheduler",
+      "duration_ms": 0.03910064697265625,
+      "memory_mb": 0.0,
+      "timestamp": "2025-11-26T13:50:41.287044"
+    },
+    {
+      "operation": "Algorithm::HillClimbingScheduler",
+      "duration_ms": 0.04029273986816406,
+      "memory_mb": 0.0,
+      "timestamp": "2025-11-26T13:50:41.287269"
+    },
+    {
+      "operation": "Algorithm::HybridGASAScheduler",
+      "duration_ms": 0.030994415283203125,
+      "memory_mb": 0.0,
+      "timestamp": "2025-11-26T13:50:41.287482"
+    },
+    {
+      "operation": "Algorithm::IDDFSScheduler",
+      "duration_ms": 0.042438507080078125,
+      "memory_mb": 0.0,
+      "timestamp": "2025-11-26T13:50:41.287715"
+    },
+    {
+      "operation": "Algorithm::ParticleSwarmScheduler",
+      "duration_ms": 0.04744529724121094,
+      "memory_mb": 0.0,
+      "timestamp": "2025-11-26T13:50:41.287958"
+    },
+    {
+      "operation": "Algorithm::SimulatedAnnealingScheduler",
+      "duration_ms": 0.04291534423828125,
+      "memory_mb": 0.0,
+      "timestamp": "2025-11-26T13:50:41.288173"
+    },
+    {
+      "operation": "Algorithm::TabuSearchScheduler",
+      "duration_ms": 0.04673004150390625,
+      "memory_mb": 0.00390625,
+      "timestamp": "2025-11-26T13:50:41.288363"
+    }
+  ],
+  "memory": [
+    {
+      "label": "Initial",
+      "memory_mb": 154.58984375,
+      "timestamp": "2025-11-26T13:50:38.064967"
+    },
+    {
+      "label": "After DB Tests",
+      "memory_mb": 154.58984375,
+      "timestamp": "2025-11-26T13:50:38.067435"
+    },
+    {
+      "label": "After Tab Tests",
+      "memory_mb": 156.390625,
+      "timestamp": "2025-11-26T13:50:41.284875"
+    },
+    {
+      "label": "After Algorithm Tests",
+      "memory_mb": 156.4140625,
+      "timestamp": "2025-11-26T13:50:41.288594"
+    },
+    {
+      "label": "After Memory Tests",
+      "memory_mb": 156.96484375,
+      "timestamp": "2025-11-26T13:50:54.364369"
+    }
+  ],
+  "unreachable": [
+    "CourseSelector::Search field not found",
+    "CourseSelector::CourseList empty or not found",
+    "CourseSelector::AddButton disabled/not found",
+    "CourseSelector::RemoveButton disabled/not found",
+    "ScheduleViewer::Generation button/combo not found"
+  ],
+  "warnings": []
+}

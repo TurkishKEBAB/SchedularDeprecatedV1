@@ -1,0 +1,299 @@
+{
+  "timestamp": "2025-11-26_13-43-01",
+  "summary": {
+    "total": 40,
+    "passed": 37,
+    "failed": 0,
+    "skipped": 3
+  },
+  "results": [
+    {
+      "status": "PASS",
+      "test": "Setup::MainWindow",
+      "details": "Main window created and shown",
+      "timestamp": "2025-11-26T13:43:04.038080"
+    },
+    {
+      "status": "PASS",
+      "test": "Tabs::\ud83d\udcc1 File & Settings",
+      "details": "Tab accessible and switched in 0.51s",
+      "timestamp": "2025-11-26T13:43:04.553977"
+    },
+    {
+      "status": "PASS",
+      "test": "Tabs::\ud83d\udcda Course Browser",
+      "details": "Tab accessible and switched in 0.52s",
+      "timestamp": "2025-11-26T13:43:05.071273"
+    },
+    {
+      "status": "PASS",
+      "test": "Tabs::\u2705 Course Selector",
+      "details": "Tab accessible and switched in 0.52s",
+      "timestamp": "2025-11-26T13:43:05.587921"
+    },
+    {
+      "status": "PASS",
+      "test": "Tabs::\ud83d\udcca Schedule Viewer",
+      "details": "Tab accessible and switched in 0.52s",
+      "timestamp": "2025-11-26T13:43:06.104523"
+    },
+    {
+      "status": "PASS",
+      "test": "Tabs::\ud83c\udf93 Academic",
+      "details": "Tab accessible and switched in 0.52s",
+      "timestamp": "2025-11-26T13:43:06.620451"
+    },
+    {
+      "status": "PASS",
+      "test": "CourseSelector::Button::\u2705 Select All",
+      "details": "Button accessible",
+      "timestamp": "2025-11-26T13:43:07.139773"
+    },
+    {
+      "status": "PASS",
+      "test": "CourseSelector::Button::\u2b1c Deselect All",
+      "details": "Button accessible",
+      "timestamp": "2025-11-26T13:43:07.139951"
+    },
+    {
+      "status": "PASS",
+      "test": "ScheduleViewer::Button::\ud83d\udcc4 Export PDF",
+      "details": "Button accessible",
+      "timestamp": "2025-11-26T13:43:07.657439"
+    },
+    {
+      "status": "PASS",
+      "test": "ScheduleViewer::Button::\ud83d\uddbc\ufe0f Export JPEG",
+      "details": "Button accessible",
+      "timestamp": "2025-11-26T13:43:07.657617"
+    },
+    {
+      "status": "PASS",
+      "test": "ScheduleViewer::Button::\ud83d\udcca Export Excel",
+      "details": "Button accessible",
+      "timestamp": "2025-11-26T13:43:07.657738"
+    },
+    {
+      "status": "PASS",
+      "test": "ScheduleViewer::Button::\u2696\ufe0f Compare Algorithms",
+      "details": "Button accessible",
+      "timestamp": "2025-11-26T13:43:07.657854"
+    },
+    {
+      "status": "PASS",
+      "test": "ScheduleViewer::ModifyECTS",
+      "details": "Checkbox can be checked",
+      "timestamp": "2025-11-26T13:43:07.869507"
+    },
+    {
+      "status": "PASS",
+      "test": "ScheduleViewer::ECTSSpinbox",
+      "details": "Spinbox works when enabled",
+      "timestamp": "2025-11-26T13:43:08.070284"
+    },
+    {
+      "status": "PASS",
+      "test": "Academic::Button::\ud83d\udd0d Check Prerequisites",
+      "details": "Button accessible",
+      "timestamp": "2025-11-26T13:43:08.794346"
+    },
+    {
+      "status": "PASS",
+      "test": "Academic::Button::\u2705 Validate Prerequisites",
+      "details": "Button accessible",
+      "timestamp": "2025-11-26T13:43:08.794465"
+    },
+    {
+      "status": "PASS",
+      "test": "Academic::Button::\ud83d\udccb Show Available Courses",
+      "details": "Button accessible",
+      "timestamp": "2025-11-26T13:43:08.794578"
+    },
+    {
+      "status": "PASS",
+      "test": "GraduationPlanner::Button::\ud83d\udd0d Check Prerequisites",
+      "details": "Button accessible",
+      "timestamp": "2025-11-26T13:43:08.797606"
+    },
+    {
+      "status": "PASS",
+      "test": "GraduationPlanner::Button::\u2705 Validate Prerequisites",
+      "details": "Button accessible",
+      "timestamp": "2025-11-26T13:43:08.797716"
+    },
+    {
+      "status": "PASS",
+      "test": "GraduationPlanner::Button::\ud83d\udccb Show Available Courses",
+      "details": "Button accessible",
+      "timestamp": "2025-11-26T13:43:08.797821"
+    },
+    {
+      "status": "PASS",
+      "test": "FileSettings::Button::\ud83d\udd0d Check Prerequisites",
+      "details": "Button accessible",
+      "timestamp": "2025-11-26T13:43:08.801097"
+    },
+    {
+      "status": "PASS",
+      "test": "FileSettings::Button::\u2705 Validate Prerequisites",
+      "details": "Button accessible",
+      "timestamp": "2025-11-26T13:43:08.801235"
+    },
+    {
+      "status": "PASS",
+      "test": "FileSettings::Button::\ud83d\udccb Show Available Courses",
+      "details": "Button accessible",
+      "timestamp": "2025-11-26T13:43:08.801402"
+    },
+    {
+      "status": "PASS",
+      "test": "Menu::File",
+      "details": "Menu action accessible",
+      "timestamp": "2025-11-26T13:43:09.305033"
+    },
+    {
+      "status": "PASS",
+      "test": "Menu::",
+      "details": "Menu action accessible",
+      "timestamp": "2025-11-26T13:43:09.305186"
+    },
+    {
+      "status": "PASS",
+      "test": "Menu::\ud83d\udce4 Export",
+      "details": "Menu action accessible",
+      "timestamp": "2025-11-26T13:43:09.305335"
+    },
+    {
+      "status": "PASS",
+      "test": "Menu::",
+      "details": "Menu action accessible",
+      "timestamp": "2025-11-26T13:43:09.305468"
+    },
+    {
+      "status": "PASS",
+      "test": "Menu::Edit",
+      "details": "Menu action accessible",
+      "timestamp": "2025-11-26T13:43:09.305603"
+    },
+    {
+      "status": "PASS",
+      "test": "Menu::View",
+      "details": "Menu action accessible",
+      "timestamp": "2025-11-26T13:43:09.305722"
+    },
+    {
+      "status": "PASS",
+      "test": "Menu::Tools",
+      "details": "Menu action accessible",
+      "timestamp": "2025-11-26T13:43:09.305843"
+    },
+    {
+      "status": "PASS",
+      "test": "Menu::",
+      "details": "Menu action accessible",
+      "timestamp": "2025-11-26T13:43:09.305961"
+    },
+    {
+      "status": "PASS",
+      "test": "Menu::Help",
+      "details": "Menu action accessible",
+      "timestamp": "2025-11-26T13:43:09.306072"
+    },
+    {
+      "status": "PASS",
+      "test": "Menu::",
+      "details": "Menu action accessible",
+      "timestamp": "2025-11-26T13:43:09.306194"
+    },
+    {
+      "status": "SKIP",
+      "test": "Dialog::About",
+      "reason": "Dialog verification skipped (would require user interaction)",
+      "timestamp": "2025-11-26T13:43:09.306530"
+    },
+    {
+      "status": "SKIP",
+      "test": "Dialog::Help",
+      "reason": "Dialog verification skipped (would require user interaction)",
+      "timestamp": "2025-11-26T13:43:09.306662"
+    },
+    {
+      "status": "SKIP",
+      "test": "Dialog::Settings",
+      "reason": "Dialog verification skipped (would require user interaction)",
+      "timestamp": "2025-11-26T13:43:09.306796"
+    },
+    {
+      "status": "PASS",
+      "test": "EdgeCase::RapidTabSwitch",
+      "details": "Handles rapid tab switching",
+      "timestamp": "2025-11-26T13:43:12.919163"
+    },
+    {
+      "status": "PASS",
+      "test": "Keyboard::F1 - Help",
+      "details": "Shortcut processed",
+      "timestamp": "2025-11-26T13:43:13.120652"
+    },
+    {
+      "status": "PASS",
+      "test": "Keyboard::F5 - Refresh",
+      "details": "Shortcut processed",
+      "timestamp": "2025-11-26T13:43:14.820533"
+    },
+    {
+      "status": "PASS",
+      "test": "Keyboard::ESC - Close dialogs",
+      "details": "Shortcut processed",
+      "timestamp": "2025-11-26T13:43:15.021358"
+    }
+  ],
+  "errors": [],
+  "warnings": [],
+  "unreachable": [
+    "Academic::Button::\ud83d\udcc1 Import from Excel - disabled/hidden",
+    "Academic::Button::\u270f\ufe0f Add Grade Manually - disabled/hidden",
+    "Academic::Button::\ud83d\udcbe Save to Database - disabled/hidden",
+    "Academic::Button::\ud83d\udce4 Export to Excel - disabled/hidden",
+    "Academic::Button::\ud83d\uddd1\ufe0f Clear All - disabled/hidden",
+    "Academic::Button::\ud83d\udccb Load Requirements - disabled/hidden",
+    "Academic::Button::\ud83d\udd04 Refresh Curriculum Progress - disabled/hidden",
+    "Academic::Button::\ud83d\udca1 Suggest Courses - disabled/hidden",
+    "Academic::Button::\u2795 Add Course - disabled/hidden",
+    "Academic::Button::\ud83e\uddee Calculate Simulated GPA - disabled/hidden",
+    "Academic::Button::\ud83d\uddd1\ufe0f Clear All - disabled/hidden",
+    "Academic::Button::\ud83c\udfaf Calculate Required GPA - disabled/hidden",
+    "GraduationPlanner::Button::\ud83d\udcc1 Import from Excel - disabled/hidden",
+    "GraduationPlanner::Button::\u270f\ufe0f Add Grade Manually - disabled/hidden",
+    "GraduationPlanner::Button::\ud83d\udcbe Save to Database - disabled/hidden",
+    "GraduationPlanner::Button::\ud83d\udce4 Export to Excel - disabled/hidden",
+    "GraduationPlanner::Button::\ud83d\uddd1\ufe0f Clear All - disabled/hidden",
+    "GraduationPlanner::Button::\ud83d\udccb Load Requirements - disabled/hidden",
+    "GraduationPlanner::Button::\ud83d\udd04 Refresh Curriculum Progress - disabled/hidden",
+    "GraduationPlanner::Button::\ud83d\udca1 Suggest Courses - disabled/hidden",
+    "GraduationPlanner::Button::\u2795 Add Course - disabled/hidden",
+    "GraduationPlanner::Button::\ud83e\uddee Calculate Simulated GPA - disabled/hidden",
+    "GraduationPlanner::Button::\ud83d\uddd1\ufe0f Clear All - disabled/hidden",
+    "GraduationPlanner::Button::\ud83c\udfaf Calculate Required GPA - disabled/hidden",
+    "FileSettings::Button::\ud83d\udcc1 Import from Excel - disabled/hidden",
+    "FileSettings::Button::\u270f\ufe0f Add Grade Manually - disabled/hidden",
+    "FileSettings::Button::\ud83d\udcbe Save to Database - disabled/hidden",
+    "FileSettings::Button::\ud83d\udce4 Export to Excel - disabled/hidden",
+    "FileSettings::Button::\ud83d\uddd1\ufe0f Clear All - disabled/hidden",
+    "FileSettings::Button::\ud83d\udccb Load Requirements - disabled/hidden",
+    "FileSettings::Button::\ud83d\udd04 Refresh Curriculum Progress - disabled/hidden",
+    "FileSettings::Button::\ud83d\udca1 Suggest Courses - disabled/hidden",
+    "FileSettings::Button::\u2795 Add Course - disabled/hidden",
+    "FileSettings::Button::\ud83e\uddee Calculate Simulated GPA - disabled/hidden",
+    "FileSettings::Button::\ud83d\uddd1\ufe0f Clear All - disabled/hidden",
+    "FileSettings::Button::\ud83c\udfaf Calculate Required GPA - disabled/hidden",
+    "AlgorithmComparison::Button - not found"
+  ],
+  "performance": {
+    "Switch to \ud83d\udcc1 File & Settings": 0.514876127243042,
+    "Switch to \ud83d\udcda Course Browser": 0.517075777053833,
+    "Switch to \u2705 Course Selector": 0.5161547660827637,
+    "Switch to \ud83d\udcca Schedule Viewer": 0.5162177085876465,
+    "Switch to \ud83c\udf93 Academic": 0.5155820846557617
+  }
+}

@@ -1,0 +1,130 @@
+================================================================================
+AUTOMATED GUI TEST REPORT
+================================================================================
+Timestamp: 2025-11-26_13-43-01
+Total Tests: 40
+✅ Passed: 37
+❌ Failed: 0
+⏭️  Skipped: 3
+Success Rate: 92.5%
+
+
+================================================================================
+UNREACHABLE FEATURES (37)
+================================================================================
+🚫 Academic::Button::📁 Import from Excel - disabled/hidden
+🚫 Academic::Button::✏️ Add Grade Manually - disabled/hidden
+🚫 Academic::Button::💾 Save to Database - disabled/hidden
+🚫 Academic::Button::📤 Export to Excel - disabled/hidden
+🚫 Academic::Button::🗑️ Clear All - disabled/hidden
+🚫 Academic::Button::📋 Load Requirements - disabled/hidden
+🚫 Academic::Button::🔄 Refresh Curriculum Progress - disabled/hidden
+🚫 Academic::Button::💡 Suggest Courses - disabled/hidden
+🚫 Academic::Button::➕ Add Course - disabled/hidden
+🚫 Academic::Button::🧮 Calculate Simulated GPA - disabled/hidden
+🚫 Academic::Button::🗑️ Clear All - disabled/hidden
+🚫 Academic::Button::🎯 Calculate Required GPA - disabled/hidden
+🚫 GraduationPlanner::Button::📁 Import from Excel - disabled/hidden
+🚫 GraduationPlanner::Button::✏️ Add Grade Manually - disabled/hidden
+🚫 GraduationPlanner::Button::💾 Save to Database - disabled/hidden
+🚫 GraduationPlanner::Button::📤 Export to Excel - disabled/hidden
+🚫 GraduationPlanner::Button::🗑️ Clear All - disabled/hidden
+🚫 GraduationPlanner::Button::📋 Load Requirements - disabled/hidden
+🚫 GraduationPlanner::Button::🔄 Refresh Curriculum Progress - disabled/hidden
+🚫 GraduationPlanner::Button::💡 Suggest Courses - disabled/hidden
+🚫 GraduationPlanner::Button::➕ Add Course - disabled/hidden
+🚫 GraduationPlanner::Button::🧮 Calculate Simulated GPA - disabled/hidden
+🚫 GraduationPlanner::Button::🗑️ Clear All - disabled/hidden
+🚫 GraduationPlanner::Button::🎯 Calculate Required GPA - disabled/hidden
+🚫 FileSettings::Button::📁 Import from Excel - disabled/hidden
+🚫 FileSettings::Button::✏️ Add Grade Manually - disabled/hidden
+🚫 FileSettings::Button::💾 Save to Database - disabled/hidden
+🚫 FileSettings::Button::📤 Export to Excel - disabled/hidden
+🚫 FileSettings::Button::🗑️ Clear All - disabled/hidden
+🚫 FileSettings::Button::📋 Load Requirements - disabled/hidden
+🚫 FileSettings::Button::🔄 Refresh Curriculum Progress - disabled/hidden
+🚫 FileSettings::Button::💡 Suggest Courses - disabled/hidden
+🚫 FileSettings::Button::➕ Add Course - disabled/hidden
+🚫 FileSettings::Button::🧮 Calculate Simulated GPA - disabled/hidden
+🚫 FileSettings::Button::🗑️ Clear All - disabled/hidden
+🚫 FileSettings::Button::🎯 Calculate Required GPA - disabled/hidden
+🚫 AlgorithmComparison::Button - not found
+
+================================================================================
+PERFORMANCE METRICS
+================================================================================
+Switch to 📚 Course Browser: 0.52s
+Switch to 📊 Schedule Viewer: 0.52s
+Switch to ✅ Course Selector: 0.52s
+Switch to 🎓 Academic: 0.52s
+Switch to 📁 File & Settings: 0.51s
+
+================================================================================
+TEST RESULTS BY CATEGORY
+================================================================================
+
+Academic:
+  Total: 3
+  ✅ Pass: 3
+  ❌ Fail: 0
+  ⏭️  Skip: 0
+
+CourseSelector:
+  Total: 2
+  ✅ Pass: 2
+  ❌ Fail: 0
+  ⏭️  Skip: 0
+
+Dialog:
+  Total: 3
+  ✅ Pass: 0
+  ❌ Fail: 0
+  ⏭️  Skip: 3
+
+EdgeCase:
+  Total: 1
+  ✅ Pass: 1
+  ❌ Fail: 0
+  ⏭️  Skip: 0
+
+FileSettings:
+  Total: 3
+  ✅ Pass: 3
+  ❌ Fail: 0
+  ⏭️  Skip: 0
+
+GraduationPlanner:
+  Total: 3
+  ✅ Pass: 3
+  ❌ Fail: 0
+  ⏭️  Skip: 0
+
+Keyboard:
+  Total: 3
+  ✅ Pass: 3
+  ❌ Fail: 0
+  ⏭️  Skip: 0
+
+Menu:
+  Total: 10
+  ✅ Pass: 10
+  ❌ Fail: 0
+  ⏭️  Skip: 0
+
+ScheduleViewer:
+  Total: 6
+  ✅ Pass: 6
+  ❌ Fail: 0
+  ⏭️  Skip: 0
+
+Setup:
+  Total: 1
+  ✅ Pass: 1
+  ❌ Fail: 0
+  ⏭️  Skip: 0
+
+Tabs:
+  Total: 5
+  ✅ Pass: 5
+  ❌ Fail: 0
+  ⏭️  Skip: 0
