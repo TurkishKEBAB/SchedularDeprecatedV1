@@ -1,0 +1,2 @@
+{"location": "models.py:58", "message": "from_dict called", "data": {"has_code": true, "has_main_code": true, "has_schedule": true}, "timestamp": 1765655101571, "sessionId": "debug-session", "runId": "run1", "hypothesisId": "B"}
+{"location": "models.py:70", "message": "Creating Course instance", "data": {"code": "PHYS201-02", "main_code": "PHYS201"}, "timestamp": 1765655101572, "sessionId": "debug-session", "runId": "run1", "hypothesisId": "B"}

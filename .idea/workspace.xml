@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b39a95fb-15c8-4905-98b4-eb3d3ee2e9e1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/easycode.ignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/easycode/codebase-v2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/git_toolbox_blame.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pythonProject3.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CHATGPT_AGENT_PROMPT_v2.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/SchedulerGUI.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/chart.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/conflicts.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/course_selection.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/display.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/file_ops.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/grid.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/main_gui.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/optimizer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/parser.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/processor.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/report.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/scheduling_utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFO/splash.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/CHANGELOG_Phase3_Enhancements.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/CURRENT_SESSION_SNAPSHOT.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/PHASES_PROGRESS.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/PHASE_1_COMPLETE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/PHASE_7.5_TRANSCRIPT_IMPORT.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/PHASE_8_REMAINING_TASKS.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/SETUP.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/a_star_scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/a_star_scheduler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/algorithm_selector.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/algorithm_selector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/base_scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/base_scheduler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/benchmark.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/benchmark.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/bfs_scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/bfs_scheduler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/constraint_programming.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/constraint_programming.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/constraints.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/constraints.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/dfs_scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/dfs_scheduler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/dijkstra_scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/dijkstra_scheduler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/evaluator.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/evaluator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/genetic_algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/genetic_algorithm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/greedy_scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/greedy_scheduler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/heuristics.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/heuristics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/hill_climbing.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/hill_climbing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/hybrid_ga_sa.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/hybrid_ga_sa.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/iddfs_scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/iddfs_scheduler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/parallel_executor.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/parallel_executor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/particle_swarm.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/particle_swarm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/simulated_annealing.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/simulated_annealing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/simulated_annealing_scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/simulated_annealing_scheduler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/algorithms/tabu_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/algorithms/tabu_search.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/automated_gui_test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/comprehensive_test_suite.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/core/excel_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/core/excel_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/core/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/core/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/demo_phase2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/demo_phase3.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/docs/PHASE_07_ACADEMIC_SYSTEM.md" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/docs/PHASE_07_ACADEMIC_SYSTEM.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/docs/USER_GUIDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/docs/USER_GUIDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/gui/main_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/gui/main_window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/gui/tabs/COURSE_BROWSER_FILTERS.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/gui/tabs/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/gui/tabs/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/gui/tabs/course_browser_tab.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/gui/tabs/course_browser_tab.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/gui/tabs/course_selector_tab.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/gui/tabs/course_selector_tab.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/gui/tabs/file_settings_tab.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/gui/tabs/schedule_viewer_tab.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/gui/tabs/schedule_viewer_tab.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/gui/widgets/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/gui/widgets/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/gui/widgets/algorithm_selector.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/gui/widgets/algorithm_selector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/output/gui_test_report_2025-11-26_13-40-59.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/output/gui_test_report_2025-11-26_13-40-59.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/reporting/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/reporting/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/resources/images/README_LOGO.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/test_gui_integration.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/test_isik_integration.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/utils/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SchedularV3/utils/schedule_metrics.py" beforeDir="false" afterPath="$PROJECT_DIR$/SchedularV3/utils/schedule_metrics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TODO.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TODO_COMPLETED_SUMMARY.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conflict_report.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/final_selection_matrices.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/isik_university_programs.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/comprehensive_test_2025-11-26_13-50-35.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/comprehensive_test_2025-11-26_13-50-35.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gui_test_report_2025-11-26_13-43-01.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gui_test_report_2025-11-26_13-43-01.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/program1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/program2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/program3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/program4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/program5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sef.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp_models.py" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;TurkishKEBAB&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/TurkishKEBAB/SchedularDeprecatedV1.git&quot;,
+    &quot;accountId&quot;: &quot;9cba99fe-ba47-42f8-a02b-ae04c0da10c8&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="36dg0nqJrILmFASVHdZYJu4Vd2Q" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#1 on copilot/fix-max-ects-mismatch&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-0978a7220b69-9867c7d4c0a4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.28294.336" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b39a95fb-15c8-4905-98b4-eb3d3ee2e9e1" name="Changes" comment="" />
+      <created>1765341643374</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1765341643374</updated>
+      <workItem from="1765341645777" duration="12684000" />
+      <workItem from="1765647332088" duration="713000" />
+      <workItem from="1765648152850" duration="299000" />
+      <workItem from="1765648859435" duration="433000" />
+      <workItem from="1765653579409" duration="636000" />
+    </task>
+    <servers />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>
