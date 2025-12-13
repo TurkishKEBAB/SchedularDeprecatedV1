@@ -6,6 +6,7 @@ Handles formats like: "M1, M2, T3" -> [("Monday", 1), ("Monday", 2), ("Tuesday",
 """
 import pandas as pd
 import logging
+import re
 from pathlib import Path
 from typing import List, Dict, Optional, Tuple, Literal, Union
 
@@ -133,6 +134,26 @@ def parse_time_slot(slot_str: str) -> Optional[TimeSlot]:
     return None
 
 
+
+def _extract_period_digits(schedule_str: str, start_idx: int) -> tuple[str, int]:
+    """
+    Extract consecutive digits starting from start_idx.
+    
+    Args:
+        schedule_str: The schedule string
+        start_idx: Starting index
+        
+    Returns:
+        Tuple of (period_string, next_index)
+    """
+    period_chars = []
+    j = start_idx
+    while j < len(schedule_str) and schedule_str[j].isdigit():
+        period_chars.append(schedule_str[j])
+        j += 1
+    return ''.join(period_chars), j
+
+
 def parse_schedule(schedule_str: str) -> List[TimeSlot]:
     """
     Parse schedule string into list of TimeSlot tuples.
@@ -183,22 +204,18 @@ def parse_schedule(schedule_str: str) -> List[TimeSlot]:
         i = 0
         while i < len(schedule_str):
             # Check for two-letter day codes first (Th, Su)
-            if i + 2 < len(schedule_str):
+            if i + 1 < len(schedule_str):
                 two_letter = schedule_str[i:i+2]
                 if two_letter in ["Th", "Su"]:
                     # Found two-letter day code, extract the period number
-                    j = i + 2
-                    period_str = ""
-                    while j < len(schedule_str) and schedule_str[j].isdigit():
-                        period_str += schedule_str[j]
-                        j += 1
+                    period_str, next_i = _extract_period_digits(schedule_str, i + 2)
                     
                     if period_str:
                         try:
                             period = int(period_str)
                             day_name = "Thursday" if two_letter == "Th" else "Sunday"
                             slots.append((day_name, period))
-                            i = j
+                            i = next_i
                             continue
                         except ValueError:
                             pass
@@ -207,17 +224,13 @@ def parse_schedule(schedule_str: str) -> List[TimeSlot]:
             if i < len(schedule_str) and schedule_str[i] in DAY_MAP:
                 day_abbr = schedule_str[i]
                 # Extract period number
-                j = i + 1
-                period_str = ""
-                while j < len(schedule_str) and schedule_str[j].isdigit():
-                    period_str += schedule_str[j]
-                    j += 1
+                period_str, next_i = _extract_period_digits(schedule_str, i + 1)
                 
                 if period_str:
                     try:
                         period = int(period_str)
                         slots.append((DAY_MAP[day_abbr], period))
-                        i = j
+                        i = next_i
                         continue
                     except ValueError:
                         pass
@@ -307,8 +320,6 @@ def extract_ects_from_name(name: str) -> tuple[str, int]:
         "Yöneylem Araştırması II (4)" -> ("Yöneylem Araştırması II", 4)
         "Introduction to CS" -> ("Introduction to CS", 0)
     """
-    import re
-    
     # Pattern to match ECTS in parentheses at the end: (4) or (6)
     pattern = r'\s*\((\d+)\)\s*$'
     match = re.search(pattern, name)
