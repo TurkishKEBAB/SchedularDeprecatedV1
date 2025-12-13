@@ -6,6 +6,7 @@ Handles formats like: "M1, M2, T3" -> [("Monday", 1), ("Monday", 2), ("Tuesday",
 """
 import pandas as pd
 import logging
+import re
 from pathlib import Path
 from typing import List, Dict, Optional, Tuple, Literal, Union
 
@@ -36,6 +37,7 @@ COLUMN_MAP = {
     "Ders Kodu": "code",
     "Course Code": "code",
     "Kod": "code",
+    "Şube": "code",  # Section column that contains course code
     
     "Başlık": "name",
     "Course Name": "name",
@@ -56,6 +58,7 @@ COLUMN_MAP = {
     "Eğitmen Adı": "teacher_first",
     "Teacher First Name": "teacher_first",
     "Instructor First": "teacher_first",
+    "Eğitmen": "teacher",  # Full teacher name (Turkish format)
     
     "Eğitmen Soyadı": "teacher_last",
     "Teacher Last Name": "teacher_last",
@@ -69,7 +72,8 @@ COLUMN_MAP = {
     # NOTE: "Ders Saati(leri)" is NOT included - it contains hour count (numeric), not time slots!
     "Schedule": "schedule",
     "Time Slots": "schedule",
-    "Zaman": "schedule"
+    "Zaman": "schedule",
+    "Gün": "schedule"  # Turkish for "Day" - contains time slots like "T1T2T3"
 }
 
 
@@ -130,12 +134,37 @@ def parse_time_slot(slot_str: str) -> Optional[TimeSlot]:
     return None
 
 
+
+def _extract_period_digits(schedule_str: str, start_idx: int) -> tuple[str, int]:
+    """
+    Extract consecutive digits starting from start_idx.
+    
+    Args:
+        schedule_str: The schedule string
+        start_idx: Starting index
+        
+    Returns:
+        Tuple of (period_string, next_index)
+    """
+    period_chars = []
+    j = start_idx
+    while j < len(schedule_str) and schedule_str[j].isdigit():
+        period_chars.append(schedule_str[j])
+        j += 1
+    return ''.join(period_chars), j
+
+
 def parse_schedule(schedule_str: str) -> List[TimeSlot]:
     """
     Parse schedule string into list of TimeSlot tuples.
     
+    Handles multiple formats:
+    - "M1, M2, T3" (comma-separated)
+    - "T1T2T3" (continuous, no separators)
+    - "M1M2M3" (continuous)
+    
     Args:
-        schedule_str: Schedule string like "M1, M2, T3" or "Th5, Th6, F7"
+        schedule_str: Schedule string like "M1, M2, T3" or "T1T2T3"
         
     Returns:
         List of (day, period) tuples
@@ -143,6 +172,7 @@ def parse_schedule(schedule_str: str) -> List[TimeSlot]:
     Examples:
         "M1, M2, T3" -> [("Monday", 1), ("Monday", 2), ("Tuesday", 3)]
         "Th5, F10" -> [("Thursday", 5), ("Friday", 10)]
+        "T1T2T3" -> [("Tuesday", 1), ("Tuesday", 2), ("Tuesday", 3)]
     """
     if not schedule_str or pd.isna(schedule_str):
         return []
@@ -160,11 +190,53 @@ def parse_schedule(schedule_str: str) -> List[TimeSlot]:
         pass  # Good, it's not a pure number
     
     slots = []
-    # Split by comma and process each slot
-    for slot in schedule_str.split(","):
-        parsed = parse_time_slot(slot)
-        if parsed:
-            slots.append(parsed)
+    
+    # Check if it contains commas (comma-separated format)
+    if "," in schedule_str:
+        # Split by comma and process each slot
+        for slot in schedule_str.split(","):
+            parsed = parse_time_slot(slot)
+            if parsed:
+                slots.append(parsed)
+    else:
+        # Continuous format like "T1T2T3" or "M1M2M3"
+        # Parse character by character
+        i = 0
+        while i < len(schedule_str):
+            # Check for two-letter day codes first (Th, Su)
+            if i + 1 < len(schedule_str):
+                two_letter = schedule_str[i:i+2]
+                if two_letter in ["Th", "Su"]:
+                    # Found two-letter day code, extract the period number
+                    period_str, next_i = _extract_period_digits(schedule_str, i + 2)
+                    
+                    if period_str:
+                        try:
+                            period = int(period_str)
+                            day_name = "Thursday" if two_letter == "Th" else "Sunday"
+                            slots.append((day_name, period))
+                            i = next_i
+                            continue
+                        except ValueError:
+                            pass
+            
+            # Check for single-letter day code
+            if i < len(schedule_str) and schedule_str[i] in DAY_MAP:
+                day_abbr = schedule_str[i]
+                # Extract period number
+                period_str, next_i = _extract_period_digits(schedule_str, i + 1)
+                
+                if period_str:
+                    try:
+                        period = int(period_str)
+                        slots.append((DAY_MAP[day_abbr], period))
+                        i = next_i
+                        continue
+                    except ValueError:
+                        pass
+            
+            # Move to next character if we couldn't parse
+            i += 1
     
     return slots
 
@@ -234,6 +306,33 @@ def extract_main_code(code: str) -> str:
     return code.strip()
 
 
+def extract_ects_from_name(name: str) -> tuple[str, int]:
+    """
+    Extract ECTS credits from course name if embedded in parentheses.
+    
+    Args:
+        name: Course name like "Yöneylem Araştırması II (4)" or regular name
+        
+    Returns:
+        Tuple of (cleaned_name, ects_value)
+        
+    Examples:
+        "Yöneylem Araştırması II (4)" -> ("Yöneylem Araştırması II", 4)
+        "Introduction to CS" -> ("Introduction to CS", 0)
+    """
+    # Pattern to match ECTS in parentheses at the end: (4) or (6)
+    pattern = r'\s*\((\d+)\)\s*$'
+    match = re.search(pattern, name)
+    
+    if match:
+        ects = int(match.group(1))
+        # Remove the ECTS part from the name
+        cleaned_name = re.sub(pattern, '', name).strip()
+        return cleaned_name, ects
+    
+    return name, 0
+
+
 def process_excel(
     file_path: Union[str, Path],
     sheet_name: Union[str, int] = 0
@@ -275,8 +374,8 @@ def process_excel(
         # Normalize column names
         df = normalize_columns(df)
         
-        # Check for required columns
-        required = ["code", "name", "ects", "schedule"]
+        # Check for required columns (schedule and code are essential, ECTS can be extracted from name)
+        required = ["code", "name", "schedule"]
         missing = [col for col in required if col not in df.columns]
         if missing:
             raise ValueError(f"Missing required columns: {missing}. Available columns: {list(df.columns)}")
@@ -296,14 +395,18 @@ def process_excel(
                     logger.warning(f"Row {idx}: Missing course name for {code}, skipping")
                     continue
                 
-                # Parse ECTS with better error handling
+                # Parse ECTS - first check if there's an ECTS column, otherwise extract from name
                 ects = 0
-                if pd.notna(row["ects"]):
+                if "ects" in df.columns and pd.notna(row["ects"]):
                     try:
                         ects = int(float(row["ects"]))
                     except (ValueError, TypeError):
-                        logger.warning(f"Row {idx}: Invalid ECTS value '{row['ects']}' for {code}, using 0")
-                        ects = 0
+                        logger.warning(f"Row {idx}: Invalid ECTS value '{row['ects']}' for {code}, trying to extract from name")
+                        # Try to extract from name
+                        name, ects = extract_ects_from_name(name)
+                else:
+                    # No ECTS column, try to extract from name
+                    name, ects = extract_ects_from_name(name)
                 
                 # Parse schedule
                 schedule_str = ""
@@ -332,7 +435,15 @@ def process_excel(
                 
                 # Build teacher name
                 teacher = None
-                if "teacher_first" in df.columns and "teacher_last" in df.columns:
+                
+                # Check if there's a "teacher" column with full name
+                if "teacher" in df.columns and pd.notna(row.get("teacher")):
+                    teacher_str = str(row["teacher"]).strip()
+                    if teacher_str and teacher_str != "nan":
+                        teacher = teacher_str
+                
+                # Otherwise, try to build from first and last name columns
+                if not teacher and "teacher_first" in df.columns and "teacher_last" in df.columns:
                     first = str(row["teacher_first"]).strip() if pd.notna(row["teacher_first"]) else ""
                     last = str(row["teacher_last"]).strip() if pd.notna(row["teacher_last"]) else ""
                     
