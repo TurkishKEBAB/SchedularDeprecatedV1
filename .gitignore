@@ -1,109 +1,54 @@
-# Python# Python
-
-__pycache__/__pycache__/
-
-*.py[cod]*.py[cod]
-
-*$py.class*$py.class
-
-*.so*.so
-
-.Python.Python
-
-*.egg-info/build/
-
-dist/develop-eggs/
-
-build/dist/
-
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
 downloads/
-
-# Virtual Environmenteggs/
-
-venv/.eggs/
-
-.venv/lib/
-
-env/lib64/
-
-ENV/parts/
-
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
 sdist/
-
-# IDEvar/
-
-.vscode/wheels/
-
-.idea/*.egg-info/
-
-*.swp.installed.cfg
-
-*.swo*.egg
-
-*~
-
-# Virtual Environment
-
-# Testingvenv/
-
-.pytest_cache/ENV/
-
-.coverageenv/
-
-htmlcov/.venv
-
-.tox/
-
-*.cover# IDE
-
-.vscode/
-
-# Logs.idea/
-
-logs/*.swp
-
-*.log*.swo
-
-*~
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.venv/
+venv/
+ENV/
 
 # Database
+*.db
+*.sqlite3
 
-*.db# OS
+# Backend specific
+isikschedule/backend/uploads/
+isikschedule/backend/data.db
 
-*.sqlite.DS_Store
+# Node
+node_modules/
+.next/
+out/
+build/
+.DS_Store
+*.pem
 
-*.sqlite3Thumbs.db
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-desktop.ini
-
-# OS
-
-.DS_Store# Application specific
-
-Thumbs.dblogs/*.log
-
-desktop.ini*.db
-
-*.sqlite
-
-# Project specific*.sqlite3
-
-course_scheduler.db
-
-sample_courses.csv# Reports
-
-sample_courses.xlsx*.pdf
-
-*.jpg
-*.png
-conflict_report.txt
-
-# Test coverage
-.coverage
-htmlcov/
-.pytest_cache/
-
-# Type checking
-.mypy_cache/
-.dmypy.json
-dmypy.json
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
