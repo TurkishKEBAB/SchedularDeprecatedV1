@@ -1,0 +1,85 @@
+2025-09-13 15:54:05,002 - root - INFO - Logging initialized
+2025-09-13 15:54:05,003 - root - INFO - Starting Course Scheduler application
+2025-09-13 15:54:07,205 - course_scheduler.app.gui.main_window - INFO - Main window initialized
+2025-09-13 15:54:07,205 - root - INFO - Main window initialized successfully
+2025-09-13 15:54:25,900 - course_scheduler.app.gui.file_settings - INFO - Selected file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx
+2025-09-13 15:54:33,482 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course BIOL1101.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,485 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course CHEM1101.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,486 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP1007.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,486 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP1111.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,487 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP1111.2: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,487 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP1111-L.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,488 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP1111-L.2: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,489 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP1111-L.3: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,489 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP2103.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,489 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP2103-L.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,490 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP2103-L.2: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,491 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP2112.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,491 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP2112.2: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,492 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP2112-L.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,492 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP2112-L.2: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,493 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP2112-L.3: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,493 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP2112-PS.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,494 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP3112.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,495 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP3112-PS.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,495 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP3401.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,496 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP3401-PS.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,496 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP3910.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,497 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP3920.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,498 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP4102.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,498 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP4602.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,499 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP4610.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,499 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP4687.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,500 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP4701.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,500 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP4902.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,501 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP4910.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,501 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP4912.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,502 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course COMP4920.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,502 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH1112.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,503 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH1112.2: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,504 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH1112.3: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,504 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH1112.4: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,505 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH1112-PS.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,505 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH1112-PS.2: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,506 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH1112-PS.3: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,506 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH2104.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,507 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH2104.2: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,507 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH2104.3: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,508 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH2105.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,508 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH2105.2: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,509 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH2105-PS.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,509 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH2105-PS.2: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,510 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH2107.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,510 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH2107.2: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,511 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH2107-PS.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,511 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course MATH2107-PS.2: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,512 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course OHES4411.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,512 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course OHES4412.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,513 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course SOFT2101.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,513 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course SOFT3111.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,514 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course SOFT3111-L.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,514 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course SOFT3215.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,515 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course SOFT3215-L.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,515 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course SOFT3215-L.2: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,516 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course SOFT3910.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,516 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course SOFT3920.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,517 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course SOFT4221.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,518 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course SOFT4314.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,518 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course SOFT4902.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,519 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course SOFT4910.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,519 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course SOFT4912.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:33,520 - course_scheduler.app.data.excel_loader - WARNING - Error extracting schedule for course SOFT4920.1: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-13 15:54:34,339 - course_scheduler.app.gui.course_preview - INFO - Course preview updated with 66 courses
+2025-09-13 15:54:34,347 - course_scheduler.app.gui.file_settings - INFO - Successfully loaded courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-13 15:54:51,691 - course_scheduler.app.gui.main_window - INFO - Using filtered set of 36 courses for selection
+2025-09-13 15:54:52,131 - course_scheduler.app.gui.course_selection - INFO - Course selection window initialized
+2025-09-13 15:55:27,235 - course_scheduler.app.gui.course_selection - INFO - Course selection: 4 courses selected
+2025-09-13 15:55:27,361 - course_scheduler.app.gui.main_window - INFO - Selected mandatory courses: COMP3112, COMP3401, MATH1112, SOFT3215
+2025-09-13 15:55:27,361 - course_scheduler.app.gui.main_window - INFO - Frequency preferences: {'COMP3112': 2, 'COMP3401': 2, 'MATH1112': 2, 'SOFT3215': 2}
+2025-09-13 15:55:27,370 - course_scheduler.app.gui.main_window - INFO - Include extra courses: True
+2025-09-13 15:55:27,370 - course_scheduler.app.gui.main_window - INFO - Starting scheduling process...
+2025-09-13 15:55:27,387 - course_scheduler.app.gui.main_window - INFO - Settings: MAX_ECTS=31, ALLOW_CONFLICT=True, MAX_RESULTS=5
+2025-09-13 15:55:27,394 - course_scheduler.app.gui.main_window - INFO - Replacement priority order: lecture,ps,lab
+2025-09-13 15:55:27,398 - course_scheduler.app.gui.main_window - INFO - Replacement target set to: sections
+2025-09-13 15:55:27,402 - course_scheduler.app.gui.main_window - INFO - Compress classes enabled - will try to maximize free days
+2025-09-13 15:55:27,413 - course_scheduler.app.gui.main_window - INFO - Maximum daily slots: 8

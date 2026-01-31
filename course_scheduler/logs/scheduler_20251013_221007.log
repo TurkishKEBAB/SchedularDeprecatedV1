@@ -1,0 +1,54 @@
+2025-10-13 22:10:07,380 - root - INFO - Logging initialized
+2025-10-13 22:10:07,381 - root - INFO - Starting Course Scheduler application
+2025-10-13 22:10:09,234 - course_scheduler.app.gui.main_window - INFO - UI setup completed
+2025-10-13 22:10:09,234 - course_scheduler.app.gui.main_window - INFO - Main window initialized
+2025-10-13 22:10:09,234 - root - INFO - Main window initialized successfully
+2025-10-13 22:10:18,156 - course_scheduler.app.gui.file_settings - INFO - Selected Excel file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx
+2025-10-13 22:10:20,745 - course_scheduler.app.gui.course_preview - INFO - Course preview updated with 73 courses
+2025-10-13 22:10:20,750 - course_scheduler.app.gui.main_window - INFO - Loaded 73 courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx
+2025-10-13 22:11:11,831 - course_scheduler.app.gui.course_selection - INFO - Course selection window initialized
+2025-10-13 22:11:45,903 - course_scheduler.app.gui.course_selection - INFO - Course selection: 3 courses selected
+2025-10-13 22:11:46,316 - course_scheduler.app.scheduler.dfs - INFO - Starting DFS scheduling with 39 course groups
+2025-10-13 22:11:46,317 - course_scheduler.app.scheduler.dfs - INFO - Mandatory courses: 3, Max results: 5
+2025-10-13 22:11:46,318 - course_scheduler.app.scheduler.dfs - INFO - Search order: 3 mandatory + 36 optional
+2025-10-13 22:11:46,319 - course_scheduler.app.data.models - WARNING - Found 1 conflicts in schedule:
+2025-10-13 22:11:46,319 - course_scheduler.app.data.models - WARNING - Conflict at T5: SOFT3111.1, MATH1112.1
+2025-10-13 22:11:46,320 - course_scheduler.app.data.models - WARNING - Found 1 conflicts in schedule:
+2025-10-13 22:11:46,320 - course_scheduler.app.data.models - WARNING - Conflict at T5: SOFT3111.1, MATH1112.1
+2025-10-13 22:11:46,320 - course_scheduler.app.data.models - WARNING - Found 1 conflicts in schedule:
+2025-10-13 22:11:46,320 - course_scheduler.app.data.models - WARNING - Conflict at T5: SOFT3111.1, MATH1112.1
+2025-10-13 22:11:46,321 - course_scheduler.app.data.models - WARNING - Found 1 conflicts in schedule:
+2025-10-13 22:11:46,321 - course_scheduler.app.data.models - WARNING - Conflict at T5: SOFT3111.1, MATH1112.3
+2025-10-13 22:11:46,321 - course_scheduler.app.data.models - WARNING - Found 1 conflicts in schedule:
+2025-10-13 22:11:46,322 - course_scheduler.app.data.models - WARNING - Conflict at T5: SOFT3111.1, MATH1112.3
+2025-10-13 22:11:46,322 - course_scheduler.app.data.models - WARNING - Found 1 conflicts in schedule:
+2025-10-13 22:11:46,322 - course_scheduler.app.data.models - WARNING - Conflict at T5: SOFT3111.1, MATH1112.3
+2025-10-13 22:11:46,324 - course_scheduler.app.data.models - WARNING - Found 1 conflicts in schedule:
+2025-10-13 22:11:46,324 - course_scheduler.app.data.models - WARNING - Conflict at F6: SOFT3111-L.1, MATH2105-PS.2
+2025-10-13 22:11:46,325 - course_scheduler.app.data.models - WARNING - Found 1 conflicts in schedule:
+2025-10-13 22:11:46,325 - course_scheduler.app.data.models - WARNING - Conflict at F7: SOFT3111-L.1, MATH2105.2
+2025-10-13 22:11:46,325 - course_scheduler.app.data.models - WARNING - Found 2 conflicts in schedule:
+2025-10-13 22:11:46,326 - course_scheduler.app.data.models - WARNING - Conflict at F7: SOFT3111-L.1, MATH2105.2
+2025-10-13 22:11:46,326 - course_scheduler.app.data.models - WARNING - Conflict at F6: SOFT3111-L.1, MATH2105-PS.2
+2025-10-13 22:11:46,326 - course_scheduler.app.data.models - WARNING - Found 4 conflicts in schedule:
+2025-10-13 22:11:46,326 - course_scheduler.app.data.models - WARNING - Conflict at F6: SOFT3111-L.1, COMP2103.1
+2025-10-13 22:11:46,327 - course_scheduler.app.data.models - WARNING - Conflict at F7: SOFT3111-L.1, COMP2103.1
+2025-10-13 22:11:46,327 - course_scheduler.app.data.models - WARNING - Conflict at M1: BIOL1101.1, COMP2103-L.1
+2025-10-13 22:11:46,327 - course_scheduler.app.data.models - WARNING - Conflict at M2: BIOL1101.1, COMP2103-L.1
+2025-10-13 22:11:46,327 - course_scheduler.app.data.models - WARNING - Found 4 conflicts in schedule:
+2025-10-13 22:11:46,328 - course_scheduler.app.data.models - WARNING - Conflict at F6: SOFT3111-L.1, COMP2103.1
+2025-10-13 22:11:46,328 - course_scheduler.app.data.models - WARNING - Conflict at F7: SOFT3111-L.1, COMP2103.1
+2025-10-13 22:11:46,328 - course_scheduler.app.data.models - WARNING - Conflict at M1: BIOL1101.1, COMP2103-L.2
+2025-10-13 22:11:46,328 - course_scheduler.app.data.models - WARNING - Conflict at M2: BIOL1101.1, COMP2103-L.2
+2025-10-13 22:11:46,329 - course_scheduler.app.data.models - WARNING - Found 1 conflicts in schedule:
+2025-10-13 22:11:46,329 - course_scheduler.app.data.models - WARNING - Conflict at T4: SOFT3111.1, COMP4687.1
+2025-10-13 22:11:46,329 - course_scheduler.app.data.models - WARNING - Found 1 conflicts in schedule:
+2025-10-13 22:11:46,330 - course_scheduler.app.data.models - WARNING - Conflict at M3: BIOL1101.1, COMP3401.1
+2025-10-13 22:11:46,330 - course_scheduler.app.data.models - WARNING - Found 1 conflicts in schedule:
+2025-10-13 22:11:46,330 - course_scheduler.app.data.models - WARNING - Conflict at T4: SOFT3111.1, COMP1007.1
+2025-10-13 22:11:46,330 - course_scheduler.app.scheduler.dfs - INFO - DFS search completed in 0.01s
+2025-10-13 22:11:46,330 - course_scheduler.app.scheduler.dfs - INFO - Explored 97 nodes, pruned 14 branches
+2025-10-13 22:11:46,331 - course_scheduler.app.scheduler.dfs - INFO - Found 5 valid schedules
+2025-10-13 22:11:46,337 - course_scheduler.app.gui.schedule_report - INFO - Schedule report updated with 5 schedules
+2025-10-13 22:11:46,338 - course_scheduler.app.gui.main_window - INFO - Generated 5 schedules
+2025-10-13 22:11:46,357 - course_scheduler.app.gui.main_window - INFO - Course selection completed: 3 courses selected

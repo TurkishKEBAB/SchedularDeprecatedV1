@@ -164,6 +164,8 @@ class CourseSelection:
     """Represents a user's selection state for a course group (legacy compatibility)."""
     main_code: str
     state: SelectionState = SelectionState.NEUTRAL
+    frequency: int = 3  # Default to "Always" (0=Never, 1=Rarely, 2=Often, 3=Always)
+    teacher_preference: str = "Any"  # Preferred teacher or "Any"
 
 
 @dataclass
@@ -395,14 +397,74 @@ class ConflictReport:
 
 @dataclass
 class UserPreferences:
-    """User preferences for course selection."""
+    """User preferences for course selection and automatic section assignment."""
     mandatory_courses: Set[str] = field(default_factory=set)
     frequency_prefs: Dict[str, Frequency] = field(default_factory=dict)
     teacher_prefs: Dict[str, str] = field(default_factory=dict)
+
+    # New fields for automatic section selection
+    auto_select_sections: bool = True
+    prefer_early_times: bool = True
+    avoid_friday_classes: bool = False
+    prefer_morning_classes: bool = True
+    avoid_evening_classes: bool = False
+    max_daily_courses: int = 4
+    min_break_between_courses: int = 0  # Hours
+    prefer_compact_schedule: bool = True
+
+    # Legacy compatibility
     include_extra: bool = True
 
-    def get_frequency(self, course_code: str) -> Frequency:
-        return self.frequency_prefs.get(course_code, Frequency.OFTEN)
+    def get_frequency(self, main_code: str) -> Frequency:
+        """Get frequency preference for a course."""
+        return self.frequency_prefs.get(main_code, Frequency.OFTEN)
+
+    def get_teacher_preference(self, main_code: str) -> str:
+        """Get teacher preference for a course."""
+        return self.teacher_prefs.get(main_code, "")
+
+    def should_auto_select_sections(self) -> bool:
+        """Check if automatic section selection is enabled."""
+        return self.auto_select_sections
+
+    def to_dict(self) -> Dict:
+        """Convert to dictionary format."""
+        return {
+            "mandatory_courses": list(self.mandatory_courses),
+            "frequency_prefs": {k: v.value for k, v in self.frequency_prefs.items()},
+            "teacher_prefs": self.teacher_prefs,
+            "auto_select_sections": self.auto_select_sections,
+            "prefer_early_times": self.prefer_early_times,
+            "avoid_friday_classes": self.avoid_friday_classes,
+            "prefer_morning_classes": self.prefer_morning_classes,
+            "avoid_evening_classes": self.avoid_evening_classes,
+            "max_daily_courses": self.max_daily_courses,
+            "min_break_between_courses": self.min_break_between_courses,
+            "prefer_compact_schedule": self.prefer_compact_schedule,
+            "include_extra": self.include_extra
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict) -> 'UserPreferences':
+        """Create UserPreferences from dictionary."""
+        frequency_prefs = {}
+        for k, v in data.get("frequency_prefs", {}).items():
+            frequency_prefs[k] = Frequency(v) if isinstance(v, int) else Frequency[v]
+
+        return cls(
+            mandatory_courses=set(data.get("mandatory_courses", [])),
+            frequency_prefs=frequency_prefs,
+            teacher_prefs=data.get("teacher_prefs", {}),
+            auto_select_sections=data.get("auto_select_sections", True),
+            prefer_early_times=data.get("prefer_early_times", True),
+            avoid_friday_classes=data.get("avoid_friday_classes", False),
+            prefer_morning_classes=data.get("prefer_morning_classes", True),
+            avoid_evening_classes=data.get("avoid_evening_classes", False),
+            max_daily_courses=data.get("max_daily_courses", 4),
+            min_break_between_courses=data.get("min_break_between_courses", 0),
+            prefer_compact_schedule=data.get("prefer_compact_schedule", True),
+            include_extra=data.get("include_extra", True)
+        )
 
 
 # Compatibility class for backward compatibility

@@ -1,0 +1,58 @@
+2025-09-13 13:49:14,402 - root - INFO - Logging initialized
+2025-09-13 13:49:14,402 - root - INFO - Starting Course Scheduler application
+2025-09-13 13:49:15,461 - course_scheduler.app.gui.main_window - INFO - Main window initialized
+2025-09-13 13:49:15,461 - root - INFO - Entering main loop
+2025-09-13 13:50:19,368 - course_scheduler.app.gui.course_preview - INFO - Course preview updated with 66 courses
+2025-09-13 13:50:55,279 - course_scheduler.app.gui.course_selection - INFO - Course selection window initialized
+2025-09-13 13:52:21,156 - course_scheduler.app.gui.course_selection - INFO - Course selection: 1 courses selected
+2025-09-13 13:52:21,394 - course_scheduler.app.gui.main_window - INFO - Selected mandatory courses: MATH1112
+2025-09-13 13:52:21,398 - course_scheduler.app.gui.main_window - INFO - Frequency preferences: {'MATH1112': 2}
+2025-09-13 13:52:21,401 - course_scheduler.app.gui.main_window - INFO - Include extra courses: False
+2025-09-13 13:52:21,406 - course_scheduler.app.gui.main_window - INFO - Starting scheduling process...
+2025-09-13 13:52:21,410 - course_scheduler.app.gui.main_window - INFO - Settings: MAX_ECTS=31, ALLOW_CONFLICT=1, MAX_RESULTS=5
+2025-09-13 13:52:21,416 - course_scheduler.app.gui.main_window - INFO - Replacement priority order: ['lecture', 'ps', 'lab']
+2025-09-13 13:52:21,424 - course_scheduler.app.gui.main_window - INFO - Replacement target set to: sections
+2025-09-13 13:52:21,429 - course_scheduler.app.gui.main_window - INFO - Compress classes enabled - will try to maximize free days
+2025-09-13 13:52:21,434 - course_scheduler.app.gui.main_window - INFO - Desired free days: F (Mode: Relaxed)
+2025-09-13 13:52:21,440 - course_scheduler.app.gui.main_window - INFO - Extra courses not included; setting MAX_ECTS to 5
+2025-09-13 13:52:21,460 - course_scheduler.app.gui.main_window - INFO - Found 5 potential schedules.
+2025-09-13 13:52:21,463 - course_scheduler.app.gui.main_window - INFO - Applying local repair (sections)...
+2025-09-13 13:52:21,532 - course_scheduler.app.gui.main_window - INFO - Applying simulated annealing optimization on the best schedule...
+2025-09-13 13:52:21,545 - course_scheduler.app.gui.main_window - INFO - Optimized schedule statistics:
+2025-09-13 13:52:21,545 - course_scheduler.app.gui.main_window - INFO -   Days with classes: 
+2025-09-13 13:52:21,550 - course_scheduler.app.gui.main_window - INFO -   Free days: F, M, Sa, Su, T, Th, W
+2025-09-13 13:52:21,552 - course_scheduler.app.gui.main_window - INFO -   Weekly class slots: 0
+2025-09-13 13:52:21,554 - course_scheduler.app.gui.main_window - INFO -   Satisfied free days: F
+2025-09-13 13:52:21,555 - course_scheduler.app.gui.main_window - INFO - Calculating schedule statistics...
+2025-09-13 13:52:21,555 - course_scheduler.app.gui.main_window - INFO - Generating conflict report...
+2025-09-13 13:52:21,558 - course_scheduler.app.gui.main_window - INFO - Generating JPEG visualizations...
+2025-09-13 13:52:25,696 - course_scheduler.app.gui.main_window - INFO - Generating PDF report...
+2025-09-13 13:52:37,814 - course_scheduler.app.gui.main_window - INFO - All schedule reports have been created.
+2025-09-13 13:52:49,014 - course_scheduler.app.gui.schedule_report - INFO - Detailed schedule report initialized
+2025-09-13 13:53:05,674 - course_scheduler.app.gui.course_selection - INFO - Course selection window initialized
+2025-09-13 13:53:55,805 - course_scheduler.app.gui.course_selection - INFO - Course selection: 4 courses selected
+2025-09-13 13:53:55,997 - course_scheduler.app.gui.main_window - INFO - Selected mandatory courses: COMP3112, COMP3401, MATH1112, SOFT3215
+2025-09-13 13:53:56,000 - course_scheduler.app.gui.main_window - INFO - Frequency preferences: {'COMP3112': 2, 'COMP3401': 2, 'MATH1112': 2, 'SOFT3215': 2}
+2025-09-13 13:53:56,002 - course_scheduler.app.gui.main_window - INFO - Include extra courses: True
+2025-09-13 13:53:56,004 - course_scheduler.app.gui.main_window - INFO - Starting scheduling process...
+2025-09-13 13:53:56,006 - course_scheduler.app.gui.main_window - INFO - Settings: MAX_ECTS=31, ALLOW_CONFLICT=1, MAX_RESULTS=5
+2025-09-13 13:53:56,008 - course_scheduler.app.gui.main_window - INFO - Replacement priority order: ['lecture', 'ps', 'lab']
+2025-09-13 13:53:56,010 - course_scheduler.app.gui.main_window - INFO - Replacement target set to: sections
+2025-09-13 13:53:56,012 - course_scheduler.app.gui.main_window - INFO - Compress classes enabled - will try to maximize free days
+2025-09-13 13:53:56,014 - course_scheduler.app.gui.main_window - INFO - Desired free days: F (Mode: Relaxed)
+2025-09-13 13:54:20,450 - course_scheduler.app.gui.main_window - INFO - Found 5 potential schedules.
+2025-09-13 13:54:20,452 - course_scheduler.app.gui.main_window - INFO - Applying local repair (sections)...
+2025-09-13 13:54:20,459 - course_scheduler.app.gui.main_window - INFO - Applying simulated annealing optimization on the best schedule...
+2025-09-13 13:54:20,484 - course_scheduler.app.gui.main_window - INFO - Optimized schedule statistics:
+2025-09-13 13:54:20,488 - course_scheduler.app.gui.main_window - INFO -   Days with classes: 
+2025-09-13 13:54:20,491 - course_scheduler.app.gui.main_window - INFO -   Free days: F, M, Sa, Su, T, Th, W
+2025-09-13 13:54:20,498 - course_scheduler.app.gui.main_window - INFO -   Weekly class slots: 0
+2025-09-13 13:54:20,509 - course_scheduler.app.gui.main_window - INFO -   Satisfied free days: F
+2025-09-13 13:54:20,515 - course_scheduler.app.gui.main_window - INFO - Calculating schedule statistics...
+2025-09-13 13:54:20,520 - course_scheduler.app.gui.main_window - INFO - Generating conflict report...
+2025-09-13 13:54:20,526 - course_scheduler.app.gui.main_window - INFO - Generating JPEG visualizations...
+2025-09-13 13:54:27,825 - course_scheduler.app.gui.main_window - INFO - Generating PDF report...
+2025-09-13 13:54:46,623 - course_scheduler.app.gui.main_window - INFO - All schedule reports have been created.
+2025-09-13 13:54:51,209 - course_scheduler.app.gui.schedule_report - INFO - Detailed schedule report initialized
+2025-09-13 13:59:41,059 - root - INFO - Application closing
+2025-09-13 13:59:41,107 - root - INFO - Application terminated

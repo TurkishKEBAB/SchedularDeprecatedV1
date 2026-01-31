@@ -523,3 +523,35 @@ class InteractiveDashboard:
             'filtered_count': len(self.filtered_courses),
             'schedules_count': len(self.schedules)
         }
+
+    def clear_data(self):
+        """Clear all dashboard data and reset to initial state."""
+        try:
+            # Clear data lists
+            self.courses = []
+            self.filtered_courses = []
+            self.schedules = []
+
+            # Reset metrics to initial state
+            self.metrics = {
+                'total_courses': 0,
+                'filtered_courses': 0,
+                'total_ects': 0,
+                'avg_ects_per_course': 0,
+                'faculty_distribution': {},
+                'campus_distribution': {},
+                'time_slot_usage': {},
+                'daily_load': {},
+                'conflicts': 0
+            }
+
+            # Clear live updates text
+            self.updates_text.delete(1.0, tk.END)
+            self.add_update("📊 Dashboard sıfırlandı - Veri bekleniyor...")
+
+            # Update all dashboard components with empty data
+            self.update_dashboard()
+
+        except Exception as e:
+            self.add_update(f"❌ Dashboard temizleme hatası: {e}")
+            raise

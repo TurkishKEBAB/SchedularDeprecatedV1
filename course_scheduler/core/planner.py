@@ -441,6 +441,219 @@ class CourseScheduler:
             logger.error(f"Error generating schedules: {e}")
             return []
 
+    def generate_schedules_with_auto_sections(self, courses: List[Course]) -> List[Schedule]:
+        """Generate schedules with automatic section selection based on user preferences."""
+        logger.info("Starting automatic section selection and schedule generation")
+        self.build_course_groups(courses)
+
+        if not self.preferences.should_auto_select_sections():
+            # Fallback to original method if auto-selection is disabled
+            return self.generate_schedules_dfs(courses)
+
+        # Build optimal section combinations for each mandatory course
+        optimal_combinations = []
+
+        for main_code in self.preferences.mandatory_courses:
+            if main_code in self.course_groups:
+                group = self.course_groups[main_code]
+                best_combination = self._select_optimal_sections(group)
+                if best_combination:
+                    optimal_combinations.append(best_combination)
+
+        if not optimal_combinations:
+            logger.warning("No valid combinations found for mandatory courses")
+            return []
+
+        # Generate all possible schedules from optimal combinations
+        all_schedules = self._generate_all_combinations(optimal_combinations)
+
+        # Filter valid schedules and rank them
+        valid_schedules = []
+        for schedule in all_schedules:
+            if self._is_valid_schedule(schedule):
+                schedule.metadata = {
+                    'auto_selected': True,
+                    'fitness': self.calculate_schedule_fitness(schedule)
+                }
+                valid_schedules.append(schedule)
+
+        # Sort by fitness and return top results
+        valid_schedules.sort(key=lambda s: s.metadata['fitness'], reverse=True)
+
+        logger.info(f"Generated {len(valid_schedules)} valid auto-selected schedules")
+        return valid_schedules[:self.config.max_results]
+
+    def _select_optimal_sections(self, group: CourseGroup) -> List[Course]:
+        """Select the optimal lecture, lab, and PS sections for a course group."""
+        if not group.lectures:
+            logger.warning(f"No lectures found for course group {group.main_code}")
+            return []
+
+        # Select best lecture based on preferences
+        best_lecture = self._select_best_lecture(group.lectures)
+        if not best_lecture:
+            return []
+
+        result = [best_lecture]
+
+        # Select best lab if available
+        if group.lab_sections:
+            best_lab = self._select_best_section(group.lab_sections, result)
+            if best_lab:
+                result.append(best_lab)
+
+        # Select best PS section if available
+        if group.ps_sections:
+            best_ps = self._select_best_section(group.ps_sections, result)
+            if best_ps:
+                result.append(best_ps)
+
+        return result
+
+    def _select_best_lecture(self, lectures: List[Course]) -> Optional[Course]:
+        """Select the best lecture section based on user preferences."""
+        if not lectures:
+            return None
+
+        scored_lectures = []
+
+        for lecture in lectures:
+            score = self._calculate_section_score(lecture, [])
+            scored_lectures.append((score, lecture))
+
+        # Sort by score (highest first) and return the best
+        scored_lectures.sort(key=lambda x: x[0], reverse=True)
+        return scored_lectures[0][1]
+
+    def _select_best_section(self, sections: List[Course], existing_courses: List[Course]) -> Optional[Course]:
+        """Select the best lab/PS section that doesn't conflict with existing courses."""
+        if not sections:
+            return None
+
+        valid_sections = []
+
+        for section in sections:
+            # Check for conflicts with existing courses
+            has_conflict = any(section.conflicts_with(existing) for existing in existing_courses)
+            if not has_conflict:
+                score = self._calculate_section_score(section, existing_courses)
+                valid_sections.append((score, section))
+
+        if not valid_sections:
+            # If all sections conflict, pick the one with least conflicts
+            logger.warning(f"All sections conflict for {sections[0].main_code}, selecting least conflicting")
+            for section in sections:
+                conflict_count = sum(1 for existing in existing_courses if section.conflicts_with(existing))
+                valid_sections.append((-conflict_count, section))
+
+        # Sort by score and return the best
+        valid_sections.sort(key=lambda x: x[0], reverse=True)
+        return valid_sections[0][1]
+
+    def _calculate_section_score(self, course: Course, existing_courses: List[Course]) -> float:
+        """Calculate a score for a course section based on user preferences."""
+        score = 0.0
+
+        # Time preferences
+        for day, hour in course.schedule:
+            # Early time preference
+            if self.preferences.prefer_early_times:
+                if hour <= 10:
+                    score += 20
+                elif hour <= 12:
+                    score += 10
+                else:
+                    score -= 5
+
+            # Morning preference
+            if self.preferences.prefer_morning_classes:
+                if hour <= 12:
+                    score += 15
+                else:
+                    score -= 10
+
+            # Evening avoidance
+            if self.preferences.avoid_evening_classes:
+                if hour >= 17:
+                    score -= 25
+                elif hour >= 15:
+                    score -= 10
+
+            # Friday avoidance
+            if self.preferences.avoid_friday_classes and day == "F":
+                score -= 30
+
+        # Compact schedule preference
+        if self.preferences.prefer_compact_schedule and existing_courses:
+            # Prefer courses that are close in time to existing courses
+            existing_times = set()
+            for existing in existing_courses:
+                existing_times.update(existing.schedule)
+
+            for day, hour in course.schedule:
+                # Check for adjacent time slots
+                adjacent_found = False
+                for existing_day, existing_hour in existing_times:
+                    if day == existing_day and abs(hour - existing_hour) == 1:
+                        adjacent_found = True
+                        break
+
+                if adjacent_found:
+                    score += 10
+
+        # Teacher preference
+        preferred_teacher = self.preferences.get_teacher_preference(course.main_code)
+        if preferred_teacher and course.teacher == preferred_teacher:
+            score += 50
+
+        return score
+
+    def _generate_all_combinations(self, course_combinations: List[List[Course]]) -> List[Schedule]:
+        """Generate all possible schedules from course combinations."""
+        if not course_combinations:
+            return []
+
+        # Start with first combination
+        schedules = [Schedule(courses=course_combinations[0])]
+
+        # Add each additional combination
+        for combination in course_combinations[1:]:
+            new_schedules = []
+            for schedule in schedules:
+                new_courses = schedule.courses + combination
+                new_schedule = Schedule(courses=new_courses)
+                new_schedules.append(new_schedule)
+            schedules = new_schedules
+
+        return schedules
+
+    def _is_valid_schedule(self, schedule: Schedule) -> bool:
+        """Check if a schedule meets basic validity requirements."""
+        # ECTS limit check
+        if schedule.total_ects > self.config.max_ects:
+            return False
+
+        # Conflict check
+        if schedule.conflict_cost > self.config.allow_conflict:
+            return False
+
+        # Daily course limit check
+        daily_schedule = schedule.get_daily_schedule()
+        for day, courses in daily_schedule.items():
+            if len(courses) > self.preferences.max_daily_courses:
+                return False
+
+        # Minimum break check
+        if self.preferences.min_break_between_courses > 0:
+            for day, courses in daily_schedule.items():
+                courses.sort(key=lambda x: x[0])  # Sort by hour
+                for i in range(len(courses) - 1):
+                    current_end = courses[i][0] + 1  # Assume 1-hour courses
+                    next_start = courses[i + 1][0]
+                    if next_start - current_end < self.preferences.min_break_between_courses:
+                        return False
+
+        return True
 
 class AdvancedScheduleOptimizer:
     """Advanced optimization techniques for schedule generation."""

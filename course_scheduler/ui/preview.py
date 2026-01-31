@@ -648,3 +648,47 @@ class CoursePreviewTab:
         except Exception as e:
             logger.error(f"Error in proceed_to_selection: {e}")
             messagebox.showerror("Proceed Error", f"Failed to proceed: {e}")
+
+    def clear_data(self):
+        """Clear all course data and reset the preview tab."""
+        try:
+            # Clear courses list
+            self.courses = []
+
+            # Clear treeview
+            for item in self.courses_tree.get_children():
+                self.courses_tree.delete(item)
+
+            # Reset filters to default
+            self.search_var.set("")
+            self.faculty_var.set("All")
+            self.department_var.set("All")
+            self.campus_var.set("All")
+            self.ects_min_var.set(0)
+            self.ects_max_var.set(50)
+            self.restrict_var.set(True)
+            self.show_time_var.set(False)
+
+            # Reset day and time slot variables
+            for var in self.day_vars.values():
+                var.set(True)
+            for var in self.slot_vars.values():
+                var.set(True)
+
+            # Reset combo boxes
+            self.faculty_combo['values'] = ["All"]
+            self.department_combo['values'] = ["All"]
+            self.campus_combo['values'] = ["All"]
+
+            # Hide time frame if visible
+            if self.show_time_var.get():
+                self.time_frame.pack_forget()
+
+            # Update status
+            self.status_var.set("No courses loaded")
+
+            logger.info("Preview tab data cleared successfully")
+
+        except Exception as e:
+            logger.error(f"Error clearing preview data: {e}", exc_info=True)
+            raise

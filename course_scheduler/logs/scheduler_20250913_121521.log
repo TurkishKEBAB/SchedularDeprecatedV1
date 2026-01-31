@@ -1,0 +1,19 @@
+2025-09-13 12:15:21,280 - root - INFO - Logging initialized
+2025-09-13 12:15:21,281 - root - INFO - Starting Course Scheduler application
+2025-09-13 12:15:24,683 - course_scheduler.app.gui.main_window - INFO - Main window initialized
+2025-09-13 12:15:24,684 - root - INFO - Entering main loop
+2025-09-13 12:15:58,852 - course_scheduler.app.data.excel_loader - WARNING - Error processing row 279: cannot convert float NaN to integer
+2025-09-13 12:15:58,921 - course_scheduler.app.data.excel_loader - WARNING - Error processing row 909: cannot convert float NaN to integer
+2025-09-13 12:16:00,010 - course_scheduler.app.gui.course_preview - INFO - Course preview updated with 918 courses
+2025-09-13 12:16:19,421 - course_scheduler.app.gui.course_selection - INFO - Course selection window initialized
+2025-09-13 12:21:13,395 - course_scheduler.app.gui.course_selection - INFO - Course selection window initialized
+2025-09-13 13:08:23,524 - course_scheduler.app.gui.course_selection - INFO - Course selection: 3 courses selected
+2025-09-13 13:08:27,566 - course_scheduler.app.gui.main_window - INFO - Selected mandatory courses: CIVL4920, COMP3112, COMP3910
+2025-09-13 13:08:27,572 - course_scheduler.app.gui.main_window - INFO - Frequency preferences: {'CIVL4920': 2, 'COMP3112': 2, 'COMP3910': 2}
+2025-09-13 13:08:27,582 - course_scheduler.app.gui.main_window - INFO - Include extra courses: True
+2025-09-13 13:08:27,586 - course_scheduler.app.gui.main_window - INFO - Starting scheduling process...
+2025-09-13 13:08:27,590 - course_scheduler.app.gui.main_window - INFO - Settings: MAX_ECTS=31, ALLOW_CONFLICT=1, MAX_RESULTS=5
+2025-09-13 13:08:27,597 - course_scheduler.app.gui.main_window - INFO - Replacement priority order: ['lecture', 'ps', 'lab']
+2025-09-13 13:08:27,602 - course_scheduler.app.gui.main_window - INFO - Replacement target set to: course
+2025-09-13 13:11:12,436 - root - INFO - Application closing
+2025-09-13 13:11:13,389 - root - INFO - Application terminated

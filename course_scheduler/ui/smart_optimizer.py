@@ -591,3 +591,30 @@ class SmartSchedulingAssistant:
     def set_courses(self, courses: List[Course]):
         """Set courses for optimization."""
         self.courses = courses
+
+    def clear_data(self):
+        """Clear all optimization data and reset to initial state."""
+        try:
+            # Clear courses list
+            self.courses = []
+
+            # Clear optimized courses if they exist
+            if hasattr(self, 'optimized_courses'):
+                self.optimized_courses = []
+
+            # Reset current profile to default
+            self.current_profile = SmartFilterProfile(FilterProfile())
+
+            # Reset all UI preferences
+            self.reset_preferences()
+
+            # Clear results display
+            self.results_text.delete("1.0", tk.END)
+            self.results_text.insert("1.0", "🤖 Akıllı asistan hazır - Ders verilerini yükleyin ve tercihlerinizi ayarlayın.")
+
+        except Exception as e:
+            error_msg = f"❌ Akıllı asistan temizleme hatası: {e}"
+            if hasattr(self, 'results_text'):
+                self.results_text.delete("1.0", tk.END)
+                self.results_text.insert("1.0", error_msg)
+            raise

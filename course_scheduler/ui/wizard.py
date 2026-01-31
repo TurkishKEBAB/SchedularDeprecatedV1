@@ -5,13 +5,12 @@ This module provides the course selection interface where users can
 include/exclude courses and set teacher preferences.
 """
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import messagebox
 import customtkinter as ctk
-from typing import List, Dict, Callable, Optional
+from typing import List, Dict, Callable
 import logging
 
 from ..core.models import Course, CourseSelection, SelectionState
-from .dialogs import CourseInfoDialog
 
 logger = logging.getLogger(__name__)
 
@@ -112,7 +111,8 @@ class CourseSelectionWizard:
         course_name = main_course.name
         total_ects = main_course.ects
 
-        ctk.CTkLabel(header_frame, text=f"{main_code}: {course_name} ({total_ects} ECTS)",
+        # Show only the main course name without section details
+        ctk.CTkLabel(header_frame, text=f"{main_course.main_code} - {course_name} ({total_ects} ECTS)",
                     font=ctk.CTkFont(size=12, weight="bold")).pack(side="left")
 
         # Info button
@@ -127,7 +127,7 @@ class CourseSelectionWizard:
         selection_frame = ctk.CTkFrame(controls_frame)
         selection_frame.pack(side="left", fill="x", expand=True, padx=5)
 
-        ctk.CTkLabel(selection_frame, text="Selection:", width=80).pack(side="left", padx=5)
+        ctk.CTkLabel(selection_frame, text="Priority:", width=80).pack(side="left", padx=5)
 
         selection_var = tk.StringVar(value="Neutral")
         self.selection_widgets[main_code] = {
@@ -138,7 +138,7 @@ class CourseSelectionWizard:
         selection_combo = ctk.CTkComboBox(
             selection_frame,
             variable=selection_var,
-            values=["Include", "Exclude", "Neutral"],
+            values=["Never", "Low", "High"],
             command=lambda v, mc=main_code: self.on_selection_changed(mc, v),
             width=120
         )
@@ -150,17 +150,19 @@ class CourseSelectionWizard:
 
         ctk.CTkLabel(freq_frame, text="Frequency:", width=80).pack(side="left", padx=5)
 
-        freq_var = tk.IntVar(value=3)  # Default to "Always"
+        freq_var = tk.IntVar(value=2)  # Default to "Often"
         self.selection_widgets[main_code]['freq_var'] = freq_var
 
-        freq_slider = ctk.CTkSlider(freq_frame, from_=0, to=3, variable=freq_var,
-                                   number_of_steps=3, width=120,
-                                   command=lambda v, mc=main_code: self.on_frequency_changed(mc, v))
-        freq_slider.pack(side="left", padx=5)
-
-        freq_label = ctk.CTkLabel(freq_frame, text="Always", width=60)
-        freq_label.pack(side="left", padx=5)
-        self.selection_widgets[main_code]['freq_label'] = freq_label
+        freq_options = ["Never", "Rarely", "Often", "Always"]
+        freq_combo = ctk.CTkComboBox(
+            freq_frame,
+            values=freq_options,
+            command=lambda v, mc=main_code: self.on_frequency_combo_changed(mc, v),
+            width=120
+        )
+        freq_combo.set("Often")
+        freq_combo.pack(side="left", padx=5)
+        self.selection_widgets[main_code]['freq_combo'] = freq_combo
 
         # Teacher preference (if multiple teachers available)
         teachers = list(set(course.teacher for course in courses))
@@ -170,24 +172,17 @@ class CourseSelectionWizard:
 
             ctk.CTkLabel(teacher_frame, text="Teacher:", width=60).pack(side="left", padx=5)
 
-            teacher_var = tk.StringVar(value="Any")
+            teacher_var = tk.StringVar(value="Unknown")
             teacher_combo = ctk.CTkComboBox(
                 teacher_frame,
                 variable=teacher_var,
-                values=["Any"] + sorted(teachers),
+                values=["Unknown"] + sorted([t for t in teachers if t != "Default"]),
                 width=150
             )
             teacher_combo.pack(side="left", padx=5)
             self.selection_widgets[main_code]['teacher_var'] = teacher_var
 
-        # Course sections info
-        if len(courses) > 1:
-            sections_frame = ctk.CTkFrame(course_frame)
-            sections_frame.pack(fill="x", padx=10, pady=2)
-
-            sections_text = f"Available sections: {', '.join(course.code for course in courses)}"
-            ctk.CTkLabel(sections_frame, text=sections_text,
-                        font=ctk.CTkFont(size=9), text_color="gray").pack(anchor="w", padx=5)
+        # Note: Section selection removed - system will auto-select best section
 
     def create_buttons(self, parent):
         """Create action buttons."""
@@ -256,6 +251,20 @@ class CourseSelectionWizard:
         self.frequency_prefs[main_code] = freq_value
         self.update_stats()
 
+    def on_frequency_combo_changed(self, main_code: str, value: str):
+        """Handle frequency combo box change."""
+        freq_map = {"Never": 0, "Rarely": 1, "Often": 2, "Always": 3}
+        freq_value = freq_map.get(value, 2)
+
+        if main_code in self.selection_widgets:
+            self.selection_widgets[main_code]['freq_var'].set(freq_value)
+
+        if main_code in self.selections:
+            self.selections[main_code].frequency = freq_value
+
+        self.frequency_prefs[main_code] = freq_value
+        self.update_stats()
+
     def update_stats(self):
         """Update selection statistics display."""
         include_count = sum(1 for sel in self.selections.values() if sel.state == SelectionState.INCLUDE)
@@ -279,7 +288,33 @@ class CourseSelectionWizard:
 
     def show_course_info(self, course: Course):
         """Show detailed course information."""
-        CourseInfoDialog(self.dialog, course)
+        info_text = f"""
+Course Information:
+
+Code: {course.code}
+Main Code: {course.main_code}
+Name: {course.name}
+ECTS: {course.ects}
+Type: {course.course_type.value}
+Teacher: {course.teacher}
+Faculty: {course.faculty}
+Department: {course.department}
+Campus: {course.campus}
+
+Schedule:
+{self._format_schedule(course.schedule)}
+        """
+        messagebox.showinfo("Course Information", info_text.strip())
+
+    def _format_schedule(self, schedule: List) -> str:
+        """Format schedule for display."""
+        if not schedule:
+            return "No schedule available"
+
+        schedule_lines = []
+        for day, hour in schedule:
+            schedule_lines.append(f"  {day} at {hour}:00")
+        return "\n".join(schedule_lines)
 
     def complete_selection(self):
         """Complete the selection process."""

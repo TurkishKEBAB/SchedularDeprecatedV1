@@ -1,0 +1,9 @@
+Schedule 1 with 31 credits: Conflict Count = 0
+
+Schedule 2 with 31 credits: Conflict Count = 0
+
+Schedule 3 with 31 credits: Conflict Count = 0
+
+Schedule 4 with 31 credits: Conflict Count = 0
+
+Schedule 5 with 31 credits: Conflict Count = 0

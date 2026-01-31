@@ -1491,36 +1491,18 @@ class DetailedScheduleReport:
 
     def highlight_selected_course(self, course_code):
         """Highlight the selected course and dim others."""
-        for cell in self.grid_container.winfo_children():
-            for label in cell.winfo_children():
-                label.configure()
-
-    @staticmethod
-    def get_course_color(course_type):
-        """Return the color for a given course type."""
+        self.code_header = ttk.Label(self.panel, font=("Arial", 12, "bold"), anchor="center")
         return DetailedScheduleReport.COURSE_COLORS.get(course_type, "white")
-
-
-class CourseInfoPanel:
-    def __init__(self, master):
-        """Initialize the course information panel."""
-        self.panel = ttk.Frame(master)
-        self.panel.pack(fill="x", pady=10)
-
-        # Header for course code
-        self.code_header = ttk.Label(
+        self.details_view = tk.Text(self.panel, height=6, width=50, wrap="word", state="normal", font=("Arial", 10))
             self.panel,
             font=("Arial", 12, "bold"),
             anchor="center"
         )
-        self.code_header.pack(fill="x", pady=(0, 5))
 
-        # Details section
+        Args:
+            course_data (dict): Course detail dict containing keys: code, name, ECTS, teacher, type, schedule.
         self.details_view = tk.Text(
-            self.panel,
             height=6,
-            width=50,
-            wrap="word",
             state="normal",
             font=("Arial", 10)
         )
@@ -1528,20 +1510,15 @@ class CourseInfoPanel:
 
     def update_info(self, course_data):
         """Update the panel with course information.
-    "
-    "    Args:
     "        course_data (dict): Dictionary containing course details
         """
         # Update course code header
         self.code_header["text"] = course_data["code"]
 
-        # Build formatted details string
         details = (
             f"Course Name: {course_data['name']}\n"
             f"Credit Hours: {course_data['ECTS']}\n"
             f"Instructor: {course_data['teacher']}\n"
-            f"Section Type: {course_data['type'].upper()}\n"
-            f"Time Slots: {self._format_schedule(course_data['schedule'])}"
         )
 
         # Update details view

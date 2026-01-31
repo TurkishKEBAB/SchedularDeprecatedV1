@@ -1,0 +1,52 @@
+2025-09-13 16:06:50,926 - root - INFO - Logging initialized
+2025-09-13 16:06:50,926 - root - INFO - Starting Course Scheduler application
+2025-09-13 16:06:52,688 - course_scheduler.app.gui.main_window - INFO - Main window initialized
+2025-09-13 16:06:52,688 - root - INFO - Main window initialized successfully
+2025-09-13 16:07:53,148 - course_scheduler.app.gui.file_settings - INFO - Selected file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx
+2025-09-13 16:08:00,549 - course_scheduler.app.gui.course_preview - INFO - Course preview updated with 66 courses
+2025-09-13 16:08:00,556 - course_scheduler.app.gui.file_settings - INFO - Successfully loaded courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-13 16:08:09,633 - course_scheduler.app.gui.main_window - INFO - Using filtered set of 66 courses for selection
+2025-09-13 16:08:10,033 - course_scheduler.app.gui.course_selection - INFO - Course selection window initialized
+2025-09-13 16:08:38,498 - course_scheduler.app.gui.course_selection - INFO - Course selection: 0 courses selected
+2025-09-13 16:08:38,624 - course_scheduler.app.gui.main_window - INFO - Selected mandatory courses: 
+2025-09-13 16:08:38,627 - course_scheduler.app.gui.main_window - INFO - Frequency preferences: {'BIOL1101': 0, 'CHEM1101': 0, 'COMP1007': 0, 'COMP1111': 0, 'COMP2103': 0, 'COMP2112': 0, 'COMP3910': 0, 'COMP3920': 0, 'COMP4902': 0, 'COMP4910': 0, 'COMP4912': 0, 'COMP4920': 0, 'SOFT3910': 0, 'SOFT3920': 0, 'SOFT4902': 0, 'SOFT4910': 0, 'SOFT4912': 0, 'SOFT4920': 0}
+2025-09-13 16:08:38,651 - course_scheduler.app.gui.main_window - INFO - Include extra courses: True
+2025-09-13 16:08:38,653 - course_scheduler.app.gui.main_window - INFO - Starting scheduling process...
+2025-09-13 16:08:38,656 - course_scheduler.app.gui.main_window - INFO - Settings: MAX_ECTS=31, ALLOW_CONFLICT=True, MAX_RESULTS=5
+2025-09-13 16:08:38,661 - course_scheduler.app.gui.main_window - INFO - Replacement priority order: lecture,ps,lab
+2025-09-13 16:08:38,664 - course_scheduler.app.gui.main_window - INFO - Replacement target set to: sections
+2025-09-13 16:08:38,667 - course_scheduler.app.gui.main_window - INFO - Compress classes enabled - will try to maximize free days
+2025-09-13 16:08:38,672 - course_scheduler.app.gui.main_window - INFO - Maximum daily slots: 8
+2025-09-13 16:42:15,845 - course_scheduler.app.gui.main_window - INFO - Error during scheduling: 
+2025-09-13 16:42:15,859 - course_scheduler.app.gui.main_window - ERROR - Scheduler error: 
+Traceback (most recent call last):
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\app\gui\main_window.py", line 311, in run_scheduler_thread
+    schedules = scheduler.generate_schedules(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\app\scheduler\dfs.py", line 80, in generate_schedules
+    strict_results = self._dfs_strict(
+                     ^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\app\scheduler\dfs.py", line 176, in _dfs_strict
+    self._dfs_strict(
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\app\scheduler\dfs.py", line 208, in _dfs_strict
+    self._dfs_strict(
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\app\scheduler\dfs.py", line 176, in _dfs_strict
+    self._dfs_strict(
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\app\scheduler\dfs.py", line 176, in _dfs_strict
+    self._dfs_strict(
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\app\scheduler\dfs.py", line 176, in _dfs_strict
+    self._dfs_strict(
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\app\scheduler\dfs.py", line 208, in _dfs_strict
+    self._dfs_strict(
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\app\scheduler\dfs.py", line 208, in _dfs_strict
+    self._dfs_strict(
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\app\scheduler\dfs.py", line 176, in _dfs_strict
+    self._dfs_strict(
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\app\scheduler\dfs.py", line 176, in _dfs_strict
+    self._dfs_strict(
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\app\scheduler\dfs.py", line 176, in _dfs_strict
+    self._dfs_strict(
+  [Previous line repeated 2 more times]
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\app\scheduler\dfs.py", line 175, in _dfs_strict
+    results.extend(
+MemoryError

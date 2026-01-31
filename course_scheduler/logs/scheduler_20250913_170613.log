@@ -1,0 +1,5 @@
+2025-09-13 17:06:13,802 - root - INFO - Logging initialized
+2025-09-13 17:06:13,802 - root - INFO - Starting Course Scheduler application
+2025-09-13 17:06:14,860 - course_scheduler.app.gui.main_window - INFO - UI setup completed
+2025-09-13 17:06:14,860 - course_scheduler.app.gui.main_window - INFO - Main window initialized
+2025-09-13 17:06:14,860 - root - INFO - Main window initialized successfully

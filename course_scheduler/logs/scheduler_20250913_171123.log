@@ -1,0 +1,8 @@
+2025-09-13 17:11:23,407 - root - INFO - Logging initialized
+2025-09-13 17:11:23,407 - root - INFO - Starting Course Scheduler application
+2025-09-13 17:11:24,434 - course_scheduler.app.gui.main_window - INFO - UI setup completed
+2025-09-13 17:11:24,434 - course_scheduler.app.gui.main_window - INFO - Main window initialized
+2025-09-13 17:11:24,434 - root - INFO - Main window initialized successfully
+2025-09-13 17:12:12,898 - course_scheduler.app.gui.file_settings - INFO - Selected Excel file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx
+2025-09-13 17:12:16,319 - course_scheduler.app.gui.course_preview - INFO - Course preview updated with 66 courses
+2025-09-13 17:12:16,322 - course_scheduler.app.gui.main_window - INFO - Loaded 66 courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx

@@ -448,7 +448,7 @@ class SchedulerApplication:
         self.notebook.select(self.tab5)
 
     def run_scheduler(self):
-        """Run the course scheduler."""
+        """Run the course scheduler with automatic section selection support."""
         if not self.courses:
             messagebox.showerror("Error", "No courses loaded. Please load courses first.")
             return
@@ -464,7 +464,14 @@ class SchedulerApplication:
         def scheduler_worker():
             try:
                 scheduler = CourseScheduler(self.config, self.preferences)
-                schedules = scheduler.generate_schedules(source_courses)
+
+                # Use automatic section selection if enabled
+                if self.preferences.should_auto_select_sections():
+                    logger.info("Using automatic section selection")
+                    schedules = scheduler.generate_schedules_with_auto_sections(source_courses)
+                else:
+                    logger.info("Using traditional scheduling approach")
+                    schedules = scheduler.generate_schedules(source_courses)
 
                 if schedules:
                     # Export schedules
@@ -476,7 +483,7 @@ class SchedulerApplication:
                 error_msg = f"Scheduling failed: {str(e)}"
                 self.master.after(0, lambda: self._on_scheduling_error(error_msg))
 
-        self.status_var.set("Scheduling in progress...")
+        self.status_var.set("Generating optimal schedule with automatic section selection...")
         threading.Thread(target=scheduler_worker, daemon=True).start()
 
     def _on_schedules_complete(self, schedules: List[Schedule], source_courses: List[Course]):
@@ -493,38 +500,40 @@ class SchedulerApplication:
                 ScheduleExporter.export_all_schedules(schedules, source_courses)
 
                 # After export finish
-                self.master.after(0, lambda: self.status_var.set(f"Generated {len(schedules)} schedules successfully"))
-                self.master.after(0, lambda: logger.info(f"Successfully generated {len(schedules)} schedules"))
+                auto_selected = all(hasattr(s, 'metadata') and s.metadata.get('auto_selected', False) for s in schedules)
+                method_text = "with automatic section selection" if auto_selected else "using traditional method"
+
+                self.master.after(0, lambda: self.status_var.set(f"Generated {len(schedules)} schedules successfully {method_text}"))
+                self.master.after(0, lambda: logger.info(f"Successfully generated {len(schedules)} schedules {method_text}"))
                 self.master.after(0, lambda: messagebox.showinfo("Success",
-                              f"Generated {len(schedules)} optimal schedules!\n"
+                              f"Generated {len(schedules)} optimal schedules {method_text}!\n"
+                              f"The system automatically selected the best lecture, lab, and PS sections.\n"
                               f"Check the exported files for details."))
             except Exception as e:
-                err = f"Error processing schedules: {e}"
-                logger.error(err)
-                self.master.after(0, lambda: messagebox.showerror("Processing Error", err))
-                self.master.after(0, lambda: self.status_var.set("Error processing schedules"))
+                error_msg = f"Export failed: {str(e)}"
+                self.master.after(0, lambda: self._on_scheduling_error(error_msg))
 
-        # Run exporter in background to keep UI responsive
         threading.Thread(target=exporter, daemon=True).start()
-
-        # Save snapshot with results (non-blocking quick)
-        schedule_codes = [[c.code for c in s.courses] for s in schedules]
-        if self.last_filter_profile:
-            try:
-                snapshot_id = self.snapshot_manager.save_results_snapshot(
-                    schedule_codes, self.preferences, self.last_filter_profile
-                )
-                logger.info(f"Saved results snapshot {snapshot_id}")
-            except Exception as e:
-                logger.warning(f"Failed to save results snapshot: {e}")
 
     def _on_scheduling_failed(self):
         """Handle scheduling failure."""
+        self.status_var.set("Scheduling failed - no valid schedules found")
         logger.warning("No valid schedules could be generated")
-        messagebox.showwarning("No Results",
-                             "No valid schedules could be generated with current constraints.\n"
-                             "Try relaxing some constraints or selecting different courses.")
-        self.status_var.set("No schedules generated")
+
+        auto_selection_enabled = self.preferences.should_auto_select_sections() if self.preferences else False
+
+        if auto_selection_enabled:
+            messagebox.showwarning("Scheduling Failed",
+                                 "No valid schedules could be generated with automatic section selection.\n\n"
+                                 "Possible solutions:\n"
+                                 "• Try selecting fewer courses\n"
+                                 "• Relax your time preferences\n"
+                                 "• Increase the maximum ECTS limit\n"
+                                 "• Allow more conflicts in settings")
+        else:
+            messagebox.showwarning("Scheduling Failed",
+                                 "No valid schedules could be generated.\n"
+                                 "Try adjusting your course selection or configuration.")
 
     def _on_scheduling_error(self, error_msg: str):
         """Handle scheduling errors."""

@@ -1,0 +1,78 @@
+2025-09-13 21:03:08,469 - __main__ - ERROR - Missing required packages: Pillow
+Please install them using: pip install Pillow
+2025-09-13 21:06:55,231 - __main__ - ERROR - Missing required packages: Pillow
+Please install them using: pip install Pillow
+2025-09-13 21:08:25,628 - __main__ - INFO - PIL/Pillow found successfully
+2025-09-13 21:08:26,945 - __main__ - INFO - Using theme: clam
+2025-09-13 21:08:26,951 - course_scheduler.utils.snapshot - ERROR - Failed to initialize database: Connection.executescript() takes exactly one argument (2 given)
+2025-09-13 21:08:26,952 - __main__ - ERROR - Unexpected error: Connection.executescript() takes exactly one argument (2 given)
+Traceback (most recent call last):
+  File "C:\Users\PC\PycharmProjects\pythonProject3\main.py", line 88, in main
+    app = SchedulerApplication(root)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\ui\app.py", line 53, in __init__
+    self.snapshot_manager = SnapshotManager("course_snapshots.sqlite")
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\utils\snapshot.py", line 25, in __init__
+    self.init_database()
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\utils\snapshot.py", line 31, in init_database
+    conn.executescript("""
+TypeError: Connection.executescript() takes exactly one argument (2 given)
+2025-09-13 21:08:38,899 - __main__ - INFO - PIL/Pillow found successfully
+2025-09-13 21:08:40,817 - __main__ - INFO - Using theme: clam
+2025-09-13 21:08:40,817 - course_scheduler.utils.snapshot - ERROR - Failed to initialize database: Connection.executescript() takes exactly one argument (2 given)
+2025-09-13 21:08:40,817 - __main__ - ERROR - Unexpected error: Connection.executescript() takes exactly one argument (2 given)
+Traceback (most recent call last):
+  File "C:\Users\PC\PycharmProjects\pythonProject3\main.py", line 88, in main
+    app = SchedulerApplication(root)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\ui\app.py", line 53, in __init__
+    self.snapshot_manager = SnapshotManager("course_snapshots.sqlite")
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\utils\snapshot.py", line 25, in __init__
+    self.init_database()
+  File "C:\Users\PC\PycharmProjects\pythonProject3\course_scheduler\utils\snapshot.py", line 31, in init_database
+    conn.executescript("""
+TypeError: Connection.executescript() takes exactly one argument (2 given)
+2025-10-13 14:41:03,942 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-10-13 14:41:03,978 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-10-13 14:41:08,004 - __main__ - INFO - Course Scheduler application initialized
+2025-10-13 14:41:15,759 - __main__ - INFO - Loading courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-10-13 14:41:15,777 - course_scheduler.core.parser - INFO - Loading Excel file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-10-13 14:41:16,475 - course_scheduler.core.parser - INFO - Loaded 73 rows from Excel
+2025-10-13 14:41:16,500 - course_scheduler.core.parser - INFO - Successfully processed 73 courses, skipped 0 rows
+2025-10-13 14:41:16,501 - __main__ - WARNING - Data validation issues found: 3
+2025-10-13 14:41:16,513 - __main__ - WARNING -   - 12 courses have no schedule information
+2025-10-13 14:41:16,522 - __main__ - WARNING -   - 21 courses have zero ECTS credits
+2025-10-13 14:41:16,528 - __main__ - WARNING -   - All courses have unknown department information
+2025-10-13 14:41:16,543 - course_scheduler.ui.preview - INFO - Loaded 73 courses in preview
+2025-10-13 14:41:17,106 - __main__ - INFO - Successfully loaded 73 courses
+2025-10-13 14:41:22,276 - __main__ - INFO - Filtered courses set: 53 courses
+2025-10-13 14:41:22,285 - course_scheduler.ui.preview - INFO - Proceeding with FILTERED course set: 53 courses
+2025-10-13 14:41:22,296 - course_scheduler.utils.snapshot - INFO - Saved snapshot 1 with 53 courses
+2025-10-13 14:41:22,296 - __main__ - INFO - Auto-saved snapshot 1 before selection
+2025-10-13 14:42:19,711 - __main__ - ERROR - Failed to clear cache: 'CoursePreviewTab' object has no attribute 'clear_data'
+2025-10-13 14:42:28,337 - course_scheduler.utils.snapshot - INFO - Cleanup completed: 0 snapshots, 0 runs, 0 orphaned courses
+2025-10-13 14:42:28,337 - course_scheduler.utils.snapshot - INFO - Snapshot manager closed successfully
+2025-10-13 14:42:28,338 - __main__ - INFO - Course Scheduler application closing
+2025-10-13 14:57:17,879 - __main__ - INFO - PIL/Pillow found successfully
+2025-10-13 14:57:23,583 - __main__ - INFO - Using theme: clam
+2025-10-13 14:57:23,598 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-10-13 14:57:23,657 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-10-13 14:57:29,607 - course_scheduler.ui.app - INFO - Course Scheduler application initialized
+2025-10-13 14:57:29,903 - __main__ - INFO - Course Scheduler application started successfully
+2025-10-13 14:57:47,698 - course_scheduler.ui.app - INFO - Loading courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-10-13 14:57:47,714 - course_scheduler.core.parser - INFO - Loading Excel file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-10-13 14:57:47,955 - course_scheduler.core.parser - INFO - Loaded 73 rows from Excel
+2025-10-13 14:57:47,975 - course_scheduler.core.parser - INFO - Successfully processed 73 courses, skipped 0 rows
+2025-10-13 14:57:47,976 - course_scheduler.ui.app - WARNING - Data validation issues found: 3
+2025-10-13 14:57:47,983 - course_scheduler.ui.app - WARNING -   - 12 courses have no schedule information
+2025-10-13 14:57:47,991 - course_scheduler.ui.app - WARNING -   - 21 courses have zero ECTS credits
+2025-10-13 14:57:47,997 - course_scheduler.ui.app - WARNING -   - All courses have unknown department information
+2025-10-13 14:57:48,010 - course_scheduler.ui.preview - INFO - Loaded 73 courses in preview
+2025-10-13 14:57:48,472 - course_scheduler.ui.app - INFO - Successfully loaded 73 courses
+2025-10-13 14:57:54,183 - course_scheduler.ui.app - INFO - Filtered courses set: 53 courses
+2025-10-13 14:57:54,287 - course_scheduler.ui.preview - INFO - Proceeding with FILTERED course set: 53 courses
+2025-10-13 14:57:54,304 - course_scheduler.utils.snapshot - INFO - Saved snapshot 3 with 53 courses
+2025-10-13 14:57:54,305 - course_scheduler.ui.app - INFO - Auto-saved snapshot 3 before selection
+2025-10-13 14:57:54,312 - course_scheduler.ui.dialogs - INFO - ================================================================================

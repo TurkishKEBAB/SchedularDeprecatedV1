@@ -1,0 +1,19 @@
+Schedule 1 with 31 credits: Conflict Count = 1
+  Conflicting slots:
+    W6: 2 courses - MATH1112.2, SOFT3215-L.1
+
+Schedule 2 with 31 credits: Conflict Count = 1
+  Conflicting slots:
+    W6: 2 courses - MATH1112.2, SOFT3215-L.1
+
+Schedule 3 with 31 credits: Conflict Count = 1
+  Conflicting slots:
+    W6: 2 courses - MATH1112.2, SOFT3215-L.1
+
+Schedule 4 with 31 credits: Conflict Count = 1
+  Conflicting slots:
+    W6: 2 courses - MATH1112.2, SOFT3215-L.1
+
+Schedule 5 with 31 credits: Conflict Count = 1
+  Conflicting slots:
+    W6: 2 courses - MATH1112.2, SOFT3215-L.1

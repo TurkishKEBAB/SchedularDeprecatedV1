@@ -1,0 +1,183 @@
+2025-09-14 12:51:54,548 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-14 12:51:54,577 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-14 12:51:55,343 - __main__ - INFO - Course Scheduler application initialized
+2025-09-14 12:52:11,654 - __main__ - INFO - Loading courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-14 12:52:11,671 - course_scheduler.core.parser - INFO - Loading Excel file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-14 12:52:12,524 - course_scheduler.core.parser - INFO - Loaded 73 rows from Excel
+2025-09-14 12:52:12,549 - course_scheduler.core.parser - INFO - Successfully processed 73 courses, skipped 0 rows
+2025-09-14 12:52:12,549 - __main__ - WARNING - Data validation issues found: 3
+2025-09-14 12:52:12,562 - __main__ - WARNING -   - 12 courses have no schedule information
+2025-09-14 12:52:12,572 - __main__ - WARNING -   - 21 courses have zero ECTS credits
+2025-09-14 12:52:12,580 - __main__ - WARNING -   - All courses have unknown department information
+2025-09-14 12:52:12,622 - course_scheduler.ui.preview - INFO - Loaded 73 courses in preview
+2025-09-14 12:52:12,624 - __main__ - INFO - Successfully loaded 73 courses
+2025-09-14 12:54:08,928 - __main__ - INFO - Loading courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-14 12:54:08,944 - course_scheduler.core.parser - INFO - Loading Excel file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-14 12:54:09,244 - course_scheduler.core.parser - INFO - Loaded 73 rows from Excel
+2025-09-14 12:54:09,250 - course_scheduler.core.parser - INFO - Successfully processed 73 courses, skipped 0 rows
+2025-09-14 12:54:09,250 - __main__ - WARNING - Data validation issues found: 3
+2025-09-14 12:54:09,259 - __main__ - WARNING -   - 12 courses have no schedule information
+2025-09-14 12:54:09,260 - __main__ - WARNING -   - 21 courses have zero ECTS credits
+2025-09-14 12:54:09,270 - __main__ - WARNING -   - All courses have unknown department information
+2025-09-14 12:54:09,279 - course_scheduler.ui.preview - INFO - Loaded 73 courses in preview
+2025-09-14 12:54:09,280 - __main__ - INFO - Successfully loaded 73 courses
+2025-09-14 12:54:18,628 - __main__ - INFO - Filtered courses set: 57 courses
+2025-09-14 12:54:18,633 - course_scheduler.ui.preview - INFO - Proceeding with FILTERED course set: 57 courses
+2025-09-14 12:54:18,643 - course_scheduler.utils.snapshot - INFO - Saved snapshot 17 with 57 courses
+2025-09-14 12:54:18,643 - __main__ - INFO - Auto-saved snapshot 17 before selection
+2025-09-14 12:55:08,610 - __main__ - INFO - Application interrupted by user
+2025-09-14 12:55:08,615 - __main__ - INFO - Application shutdown complete
+2025-09-16 15:23:41,761 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-16 15:23:41,822 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-16 15:23:46,709 - __main__ - INFO - Course Scheduler application initialized
+2025-09-16 15:24:06,645 - __main__ - INFO - Loading courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-16 15:24:06,662 - course_scheduler.core.parser - INFO - Loading Excel file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-16 15:24:07,388 - course_scheduler.core.parser - INFO - Loaded 73 rows from Excel
+2025-09-16 15:24:07,413 - course_scheduler.core.parser - INFO - Successfully processed 73 courses, skipped 0 rows
+2025-09-16 15:24:07,414 - __main__ - WARNING - Data validation issues found: 3
+2025-09-16 15:24:07,427 - __main__ - WARNING -   - 12 courses have no schedule information
+2025-09-16 15:24:07,433 - __main__ - WARNING -   - 21 courses have zero ECTS credits
+2025-09-16 15:24:07,438 - __main__ - WARNING -   - All courses have unknown department information
+2025-09-16 15:24:07,453 - course_scheduler.ui.preview - INFO - Loaded 73 courses in preview
+2025-09-16 15:24:07,454 - __main__ - INFO - Successfully loaded 73 courses
+2025-09-16 15:24:14,760 - __main__ - INFO - Filtered courses set: 53 courses
+2025-09-16 15:24:14,768 - course_scheduler.ui.preview - INFO - Proceeding with FILTERED course set: 53 courses
+2025-09-16 15:24:14,777 - course_scheduler.utils.snapshot - INFO - Saved snapshot 18 with 53 courses
+2025-09-16 15:24:14,778 - __main__ - INFO - Auto-saved snapshot 18 before selection
+2025-09-16 15:24:57,696 - __main__ - INFO - Course selection completed: 4 mandatory courses
+2025-09-16 15:24:57,718 - __main__ - INFO - Starting scheduler with FILTERED courses: 53
+2025-09-16 15:24:57,727 - course_scheduler.core.planner - INFO - Generating schedules with 53 courses
+2025-09-16 15:24:57,728 - course_scheduler.core.planner - INFO - Config: max_ects=31, allow_conflict=1
+2025-09-16 15:24:57,728 - course_scheduler.core.planner - INFO - Mandatory courses: 4
+2025-09-16 15:24:57,728 - course_scheduler.core.planner - INFO - Starting Simulated Annealing schedule generation
+2025-09-16 15:24:57,740 - course_scheduler.core.planner - INFO - SA generated 6 valid schedules (kept 6/7)
+2025-09-16 15:24:57,740 - course_scheduler.ui.dialogs - INFO - Course selection completed: 4 mandatory courses
+2025-09-16 15:24:57,741 - course_scheduler.core.planner - INFO - Generated 0 optimized schedules
+2025-09-16 15:24:57,741 - __main__ - WARNING - No valid schedules could be generated
+2025-09-16 15:26:31,755 - __main__ - INFO - Application interrupted by user
+2025-09-16 15:26:31,756 - __main__ - INFO - Application shutdown complete
+2025-09-17 01:45:36,139 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-17 01:45:36,169 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-17 01:45:36,670 - __main__ - INFO - Course Scheduler application initialized
+2025-09-17 01:45:48,012 - __main__ - INFO - Loading courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-17 01:45:48,024 - course_scheduler.core.parser - INFO - Loading Excel file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-17 01:45:48,810 - course_scheduler.core.parser - INFO - Loaded 73 rows from Excel
+2025-09-17 01:45:48,831 - course_scheduler.core.parser - INFO - Successfully processed 73 courses, skipped 0 rows
+2025-09-17 01:45:48,832 - __main__ - WARNING - Data validation issues found: 3
+2025-09-17 01:45:48,840 - __main__ - WARNING -   - 12 courses have no schedule information
+2025-09-17 01:45:48,846 - __main__ - WARNING -   - 21 courses have zero ECTS credits
+2025-09-17 01:45:48,852 - __main__ - WARNING -   - All courses have unknown department information
+2025-09-17 01:45:48,862 - course_scheduler.ui.preview - INFO - Loaded 73 courses in preview
+2025-09-17 01:45:48,863 - __main__ - INFO - Successfully loaded 73 courses
+2025-09-17 01:46:01,721 - __main__ - INFO - Filtered courses set: 53 courses
+2025-09-17 01:46:01,729 - course_scheduler.ui.preview - INFO - Proceeding with FILTERED course set: 53 courses
+2025-09-17 01:46:01,739 - course_scheduler.utils.snapshot - INFO - Saved snapshot 19 with 53 courses
+2025-09-17 01:46:01,740 - __main__ - INFO - Auto-saved snapshot 19 before selection
+2025-09-17 01:46:11,308 - course_scheduler.utils.snapshot - INFO - Cleanup completed: 0 snapshots, 0 runs, 0 orphaned courses
+2025-09-17 01:46:11,308 - course_scheduler.utils.snapshot - INFO - Snapshot manager closed successfully
+2025-09-17 01:46:11,308 - __main__ - INFO - Course Scheduler application closing
+2025-09-17 01:59:14,505 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-17 01:59:14,522 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-17 01:59:14,954 - __main__ - INFO - Course Scheduler application initialized
+2025-09-17 01:59:28,573 - __main__ - INFO - Loading courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-17 01:59:28,603 - course_scheduler.core.parser - INFO - Loading Excel file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-17 01:59:28,997 - course_scheduler.core.parser - INFO - Loaded 73 rows from Excel
+2025-09-17 01:59:29,011 - course_scheduler.core.parser - INFO - Successfully processed 73 courses, skipped 0 rows
+2025-09-17 01:59:29,012 - __main__ - WARNING - Data validation issues found: 3
+2025-09-17 01:59:29,017 - __main__ - WARNING -   - 12 courses have no schedule information
+2025-09-17 01:59:29,023 - __main__ - WARNING -   - 21 courses have zero ECTS credits
+2025-09-17 01:59:29,028 - __main__ - WARNING -   - All courses have unknown department information
+2025-09-17 01:59:29,037 - course_scheduler.ui.preview - INFO - Loaded 73 courses in preview
+2025-09-17 01:59:29,038 - __main__ - INFO - Successfully loaded 73 courses
+2025-09-17 01:59:38,223 - __main__ - INFO - Filtered courses set: 49 courses
+2025-09-17 01:59:38,230 - course_scheduler.ui.preview - INFO - Proceeding with FILTERED course set: 49 courses
+2025-09-17 01:59:38,240 - course_scheduler.utils.snapshot - INFO - Saved snapshot 20 with 49 courses
+2025-09-17 01:59:38,240 - __main__ - INFO - Auto-saved snapshot 20 before selection
+2025-09-17 01:59:48,959 - course_scheduler.utils.snapshot - INFO - Cleanup completed: 0 snapshots, 0 runs, 0 orphaned courses
+2025-09-17 01:59:48,960 - course_scheduler.utils.snapshot - INFO - Snapshot manager closed successfully
+2025-09-17 01:59:48,960 - __main__ - INFO - Course Scheduler application closing
+2025-09-17 02:00:01,690 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-17 02:00:01,707 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-17 02:00:02,140 - __main__ - INFO - Course Scheduler application initialized
+2025-09-17 02:00:03,348 - course_scheduler.utils.snapshot - INFO - Cleanup completed: 0 snapshots, 0 runs, 0 orphaned courses
+2025-09-17 02:00:03,348 - course_scheduler.utils.snapshot - INFO - Snapshot manager closed successfully
+2025-09-17 02:00:03,348 - __main__ - INFO - Course Scheduler application closing
+2025-09-17 02:00:40,009 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-17 02:00:40,029 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-17 02:00:40,482 - __main__ - INFO - Course Scheduler application initialized
+2025-09-17 02:00:41,928 - course_scheduler.utils.snapshot - INFO - Cleanup completed: 0 snapshots, 0 runs, 0 orphaned courses
+2025-09-17 02:00:41,928 - course_scheduler.utils.snapshot - INFO - Snapshot manager closed successfully
+2025-09-17 02:00:41,928 - __main__ - INFO - Course Scheduler application closing
+2025-09-17 15:28:26,174 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-17 15:28:26,221 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-17 15:28:27,997 - __main__ - INFO - Course Scheduler application initialized
+2025-09-17 15:28:42,702 - __main__ - INFO - Loading courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-17 15:28:42,746 - course_scheduler.core.parser - INFO - Loading Excel file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-17 15:28:45,146 - course_scheduler.core.parser - INFO - Loaded 73 rows from Excel
+2025-09-17 15:28:45,209 - course_scheduler.core.parser - INFO - Successfully processed 73 courses, skipped 0 rows
+2025-09-17 15:28:45,211 - __main__ - WARNING - Data validation issues found: 3
+2025-09-17 15:28:45,237 - __main__ - WARNING -   - 12 courses have no schedule information
+2025-09-17 15:28:45,307 - __main__ - WARNING -   - 21 courses have zero ECTS credits
+2025-09-17 15:28:45,325 - __main__ - WARNING -   - All courses have unknown department information
+2025-09-17 15:28:45,349 - course_scheduler.ui.preview - INFO - Loaded 73 courses in preview
+2025-09-17 15:28:45,353 - __main__ - INFO - Successfully loaded 73 courses
+2025-09-17 15:29:03,150 - __main__ - INFO - Filtered courses set: 53 courses
+2025-09-17 15:29:03,163 - course_scheduler.ui.preview - INFO - Proceeding with FILTERED course set: 53 courses
+2025-09-17 15:29:03,179 - course_scheduler.utils.snapshot - INFO - Saved snapshot 21 with 53 courses
+2025-09-17 15:29:03,179 - __main__ - INFO - Auto-saved snapshot 21 before selection
+2025-09-17 15:30:28,974 - __main__ - INFO - Application interrupted by user
+2025-09-17 15:30:28,987 - __main__ - INFO - Application shutdown complete
+2025-09-17 15:34:13,070 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-17 15:34:13,131 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-17 15:34:14,308 - __main__ - INFO - Course Scheduler application initialized
+2025-09-17 15:34:26,769 - __main__ - INFO - Loading courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-17 15:34:26,817 - course_scheduler.core.parser - INFO - Loading Excel file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-17 15:34:27,612 - course_scheduler.core.parser - INFO - Loaded 73 rows from Excel
+2025-09-17 15:34:27,627 - course_scheduler.core.parser - INFO - Successfully processed 73 courses, skipped 0 rows
+2025-09-17 15:34:27,628 - __main__ - WARNING - Data validation issues found: 3
+2025-09-17 15:34:27,636 - __main__ - WARNING -   - 12 courses have no schedule information
+2025-09-17 15:34:27,644 - __main__ - WARNING -   - 21 courses have zero ECTS credits
+2025-09-17 15:34:27,652 - __main__ - WARNING -   - All courses have unknown department information
+2025-09-17 15:34:27,666 - course_scheduler.ui.preview - INFO - Loaded 73 courses in preview
+2025-09-17 15:34:27,669 - __main__ - INFO - Successfully loaded 73 courses
+2025-09-17 15:34:37,104 - __main__ - INFO - Filtered courses set: 53 courses
+2025-09-17 15:34:37,128 - course_scheduler.ui.preview - INFO - Proceeding with FILTERED course set: 53 courses
+2025-09-17 15:34:37,149 - course_scheduler.utils.snapshot - INFO - Saved snapshot 22 with 53 courses
+2025-09-17 15:34:37,149 - __main__ - INFO - Auto-saved snapshot 22 before selection
+2025-09-17 15:34:54,440 - __main__ - INFO - Application interrupted by user
+2025-09-17 15:34:54,449 - __main__ - INFO - Application shutdown complete
+2025-09-17 15:35:00,670 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-17 15:35:00,730 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-09-17 15:35:01,751 - __main__ - INFO - Course Scheduler application initialized
+2025-09-17 15:35:12,547 - __main__ - INFO - Loading courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-17 15:35:12,593 - course_scheduler.core.parser - INFO - Loading Excel file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-17 15:35:13,275 - course_scheduler.core.parser - INFO - Loaded 73 rows from Excel
+2025-09-17 15:35:13,296 - course_scheduler.core.parser - INFO - Successfully processed 73 courses, skipped 0 rows
+2025-09-17 15:35:13,296 - __main__ - WARNING - Data validation issues found: 3
+2025-09-17 15:35:13,307 - __main__ - WARNING -   - 12 courses have no schedule information
+2025-09-17 15:35:13,318 - __main__ - WARNING -   - 21 courses have zero ECTS credits
+2025-09-17 15:35:13,328 - __main__ - WARNING -   - All courses have unknown department information
+2025-09-17 15:35:13,345 - course_scheduler.ui.preview - INFO - Loaded 73 courses in preview
+2025-09-17 15:35:13,348 - __main__ - INFO - Successfully loaded 73 courses
+2025-09-17 15:38:51,371 - course_scheduler.utils.snapshot - INFO - Cleanup completed: 0 snapshots, 0 runs, 0 orphaned courses
+2025-09-17 15:38:51,371 - course_scheduler.utils.snapshot - INFO - Snapshot manager closed successfully
+2025-09-17 15:38:51,371 - __main__ - INFO - Course Scheduler application closing
+2025-10-13 14:00:10,374 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-10-13 14:00:10,407 - course_scheduler.utils.snapshot - INFO - Database initialized at course_snapshots.sqlite
+2025-10-13 14:00:11,412 - __main__ - INFO - Course Scheduler application initialized
+2025-10-13 14:00:30,734 - __main__ - INFO - Loading courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-10-13 14:00:30,760 - course_scheduler.core.parser - INFO - Loading Excel file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-10-13 14:00:32,823 - course_scheduler.core.parser - INFO - Loaded 73 rows from Excel
+2025-10-13 14:00:32,885 - course_scheduler.core.parser - INFO - Successfully processed 73 courses, skipped 0 rows
+2025-10-13 14:00:32,886 - __main__ - WARNING - Data validation issues found: 3
+2025-10-13 14:00:32,907 - __main__ - WARNING -   - 12 courses have no schedule information
+2025-10-13 14:00:32,927 - __main__ - WARNING -   - 21 courses have zero ECTS credits
+2025-10-13 14:00:32,949 - __main__ - WARNING -   - All courses have unknown department information
+2025-10-13 14:00:32,979 - course_scheduler.ui.preview - INFO - Loaded 73 courses in preview
+2025-10-13 14:00:32,983 - __main__ - INFO - Successfully loaded 73 courses
+2025-10-13 14:00:44,793 - __main__ - INFO - Filtered courses set: 53 courses
+2025-10-13 14:00:44,812 - course_scheduler.ui.preview - INFO - Proceeding with FILTERED course set: 53 courses
+2025-10-13 14:00:44,830 - course_scheduler.utils.snapshot - INFO - Saved snapshot 23 with 53 courses
+2025-10-13 14:00:44,830 - __main__ - INFO - Auto-saved snapshot 23 before selection
+2025-10-13 14:13:57,407 - __main__ - INFO - Application interrupted by user
+2025-10-13 14:13:57,431 - __main__ - INFO - Application shutdown complete

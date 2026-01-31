@@ -1,0 +1,21 @@
+2025-09-13 16:02:03,869 - root - INFO - Logging initialized
+2025-09-13 16:02:03,870 - root - INFO - Starting Course Scheduler application
+2025-09-13 16:02:06,473 - course_scheduler.app.gui.main_window - INFO - Main window initialized
+2025-09-13 16:02:06,474 - root - INFO - Main window initialized successfully
+2025-09-13 16:02:11,814 - course_scheduler.app.gui.file_settings - INFO - Selected file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx
+2025-09-13 16:02:16,455 - course_scheduler.app.gui.course_preview - INFO - Course preview updated with 66 courses
+2025-09-13 16:02:16,463 - course_scheduler.app.gui.file_settings - INFO - Successfully loaded courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-13 16:02:25,796 - course_scheduler.app.gui.main_window - INFO - Using filtered set of 34 courses for selection
+2025-09-13 16:02:26,221 - course_scheduler.app.gui.course_selection - INFO - Course selection window initialized
+2025-09-13 16:03:19,388 - course_scheduler.app.gui.main_window - INFO - Using filtered set of 34 courses for selection
+2025-09-13 16:03:19,757 - course_scheduler.app.gui.course_selection - INFO - Course selection window initialized
+2025-09-13 16:04:18,947 - course_scheduler.app.gui.course_selection - INFO - Course selection: 4 courses selected
+2025-09-13 16:04:19,064 - course_scheduler.app.gui.main_window - INFO - Selected mandatory courses: COMP3112, COMP3401, MATH1112, SOFT3215
+2025-09-13 16:04:19,070 - course_scheduler.app.gui.main_window - INFO - Frequency preferences: {'BIOL1101': 0, 'CHEM1101': 0, 'COMP1111': 0, 'COMP2103': 0, 'COMP2112': 0, 'COMP4701': 0, 'COMP4902': 0, 'COMP4912': 0, 'MATH2107': 0, 'SOFT4902': 0, 'SOFT4912': 0, 'COMP3112': 2, 'COMP3401': 2, 'MATH1112': 2, 'SOFT3215': 2}
+2025-09-13 16:04:19,095 - course_scheduler.app.gui.main_window - INFO - Include extra courses: True
+2025-09-13 16:04:19,098 - course_scheduler.app.gui.main_window - INFO - Starting scheduling process...
+2025-09-13 16:04:19,101 - course_scheduler.app.gui.main_window - INFO - Settings: MAX_ECTS=31, ALLOW_CONFLICT=True, MAX_RESULTS=100
+2025-09-13 16:04:19,106 - course_scheduler.app.gui.main_window - INFO - Replacement priority order: lecture,ps,lab
+2025-09-13 16:04:19,111 - course_scheduler.app.gui.main_window - INFO - Replacement target set to: sections
+2025-09-13 16:04:19,115 - course_scheduler.app.gui.main_window - INFO - Compress classes enabled - will try to maximize free days
+2025-09-13 16:04:19,120 - course_scheduler.app.gui.main_window - INFO - Maximum daily slots: 8

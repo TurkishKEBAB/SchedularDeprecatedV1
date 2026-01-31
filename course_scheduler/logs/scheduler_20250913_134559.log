@@ -1,0 +1,6 @@
+2025-09-13 13:45:59,975 - root - INFO - Logging initialized
+2025-09-13 13:45:59,975 - root - INFO - Starting Course Scheduler application
+2025-09-13 13:46:00,746 - course_scheduler.app.gui.main_window - INFO - Main window initialized
+2025-09-13 13:46:00,747 - root - INFO - Entering main loop
+2025-09-13 13:46:58,055 - root - INFO - Application closing
+2025-09-13 13:46:58,115 - root - INFO - Application terminated

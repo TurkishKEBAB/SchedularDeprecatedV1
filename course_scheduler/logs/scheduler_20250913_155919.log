@@ -1,0 +1,19 @@
+2025-09-13 15:59:19,577 - root - INFO - Logging initialized
+2025-09-13 15:59:19,577 - root - INFO - Starting Course Scheduler application
+2025-09-13 15:59:21,436 - course_scheduler.app.gui.main_window - INFO - Main window initialized
+2025-09-13 15:59:21,437 - root - INFO - Main window initialized successfully
+2025-09-13 15:59:28,290 - course_scheduler.app.gui.file_settings - INFO - Selected file: C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx
+2025-09-13 15:59:34,778 - course_scheduler.app.gui.course_preview - INFO - Course preview updated with 66 courses
+2025-09-13 15:59:34,786 - course_scheduler.app.gui.file_settings - INFO - Successfully loaded courses from C:/Users/PC/Downloads/lisans-haftalik-ders-programi(1).xlsx, sheet: Sheet1
+2025-09-13 16:01:20,996 - course_scheduler.app.gui.main_window - INFO - Using filtered set of 2 courses for selection
+2025-09-13 16:01:21,074 - course_scheduler.app.gui.course_selection - INFO - Course selection window initialized
+2025-09-13 16:01:23,250 - course_scheduler.app.gui.course_selection - INFO - Course selection: 0 courses selected
+2025-09-13 16:01:23,266 - course_scheduler.app.gui.main_window - INFO - Selected mandatory courses: 
+2025-09-13 16:01:23,270 - course_scheduler.app.gui.main_window - INFO - Frequency preferences: {}
+2025-09-13 16:01:23,279 - course_scheduler.app.gui.main_window - INFO - Include extra courses: True
+2025-09-13 16:01:23,282 - course_scheduler.app.gui.main_window - INFO - Starting scheduling process...
+2025-09-13 16:01:23,286 - course_scheduler.app.gui.main_window - INFO - Settings: MAX_ECTS=31, ALLOW_CONFLICT=True, MAX_RESULTS=5
+2025-09-13 16:01:23,292 - course_scheduler.app.gui.main_window - INFO - Replacement priority order: lecture,ps,lab
+2025-09-13 16:01:23,297 - course_scheduler.app.gui.main_window - INFO - Replacement target set to: sections
+2025-09-13 16:01:23,300 - course_scheduler.app.gui.main_window - INFO - Compress classes enabled - will try to maximize free days
+2025-09-13 16:01:23,306 - course_scheduler.app.gui.main_window - INFO - Maximum daily slots: 8
