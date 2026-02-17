@@ -228,15 +228,17 @@ def validate_jwt_config() -> None:
             "  python -c \"import secrets; print(secrets.token_urlsafe(32))\"\n"
         )
     
-    # Warn about insecure defaults
+    # Warn about insecure defaults (check lowercase for case-insensitive match)
     insecure_values = [
         "your-super-secret-jwt-key-change-this-in-production-min-32-chars",
-        "change-this-secret-key",
-        "secret",
-        "password",
-        "test",
+        "change-this-secret-key-minimum-32-characters-required",
     ]
-    if SECRET_KEY.lower() in insecure_values:
+    secret_lower = SECRET_KEY.lower()
+    
+    # Check if it contains insecure substrings
+    insecure_substrings = ["secret", "password", "test", "change-this", "example"]
+    
+    if secret_lower in insecure_values or any(substr in secret_lower for substr in insecure_substrings):
         raise ValueError(
             "SECURITY ERROR: SECRET_KEY contains an insecure default value!\n"
             "\n"
