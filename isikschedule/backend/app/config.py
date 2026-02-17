@@ -2,6 +2,7 @@
 Application configuration using pydantic-settings.
 """
 
+import sys
 from functools import lru_cache
 from typing import List
 
@@ -21,7 +22,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "IşıkSchedule"
     APP_ENV: str = "development"
     DEBUG: bool = True
-    SECRET_KEY: str = "change-me-in-production"
+    SECRET_KEY: str
     
     # Database
     DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/isikschedule"
@@ -51,7 +52,25 @@ class Settings(BaseSettings):
 @lru_cache
 def get_settings() -> Settings:
     """Get cached settings instance."""
-    return Settings()
+    settings = Settings()
+    
+    # Validate SECRET_KEY on startup (fail-fast)
+    weak_keys = [
+        "change-me-in-production",
+        "your-secret-key-change-in-production",
+        "your-strong-random-secret-key-at-least-32-characters-long",
+        "secret",
+        "changeme",
+        "test",
+    ]
+    
+    if settings.SECRET_KEY in weak_keys or len(settings.SECRET_KEY) < 32:
+        print(f"❌ CRITICAL: SECRET_KEY is too weak or using default value!")
+        print("   SECRET_KEY must be at least 32 characters long and unique.")
+        print("   Generate a strong key with: openssl rand -hex 32")
+        sys.exit(1)
+    
+    return settings
 
 
 settings = get_settings()

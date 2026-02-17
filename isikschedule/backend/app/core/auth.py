@@ -12,9 +12,9 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
 from ..models.database import get_db, User
+from ..config import settings
 
-# Security settings
-SECRET_KEY = "isikschedule-secret-key-change-in-production-2024"
+# Security settings - SECRET_KEY loaded from environment
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 
@@ -46,14 +46,14 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
     else:
         expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
 
 def verify_token(token: str) -> Optional[dict]:
     """Verify and decode a JWT token."""
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[ALGORITHM])
         return payload
     except JWTError:
         return None
