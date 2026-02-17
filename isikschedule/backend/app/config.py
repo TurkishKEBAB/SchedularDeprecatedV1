@@ -58,20 +58,14 @@ def get_settings() -> Settings:
     weak_keys = [
         "change-me-in-production",
         "your-secret-key-change-in-production",
+        "your-strong-random-secret-key-at-least-32-characters-long",
         "secret",
         "changeme",
         "test",
     ]
     
-    if not settings.SECRET_KEY:
-        print("❌ CRITICAL: SECRET_KEY environment variable is not set!")
-        print("   Please set SECRET_KEY in your .env file or environment variables.")
-        print("   Example: SECRET_KEY=your-strong-random-secret-key-here")
-        sys.exit(1)
-    
     if settings.SECRET_KEY in weak_keys or len(settings.SECRET_KEY) < 32:
         print(f"❌ CRITICAL: SECRET_KEY is too weak or using default value!")
-        print(f"   Current SECRET_KEY: {settings.SECRET_KEY[:10]}...")
         print("   SECRET_KEY must be at least 32 characters long and unique.")
         print("   Generate a strong key with: openssl rand -hex 32")
         sys.exit(1)
