@@ -45,7 +45,49 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 5. Verify Installation
+### 5. Set Up Environment Variables (Optional, for JWT/API Features)
+
+If you plan to use JWT authentication or API features:
+
+```bash
+# Copy the example environment file
+cp .env.example .env
+
+# Generate a secure SECRET_KEY
+python -c "import secrets; print(secrets.token_urlsafe(32))"
+
+# Edit .env and set SECRET_KEY to the generated value
+# Use your favorite text editor:
+# - Windows: notepad .env
+# - Linux/macOS: nano .env or vim .env
+```
+
+**Important Security Notes:**
+- The `.env` file contains sensitive information and should **never** be committed to version control
+- Generate a **unique** SECRET_KEY for each environment (development, staging, production)
+- The desktop application works without `.env` file - it's only needed for JWT/API features
+- See `.env.example` for all available configuration options
+
+Example `.env` file:
+```bash
+# Required for JWT authentication
+SECRET_KEY=your-generated-secret-key-here-minimum-32-characters
+
+# Optional configurations
+ENVIRONMENT=development
+DEBUG=false
+LOG_LEVEL=INFO
+```
+
+**Validating Configuration:**
+```python
+from config.settings import validate_jwt_config
+
+# This will raise an error if SECRET_KEY is not properly configured
+validate_jwt_config()
+```
+
+### 6. Verify Installation
 
 Run the foundation tests:
 ```bash
@@ -61,6 +103,75 @@ python main.py
 ```
 
 You should see a welcome message box confirming the foundation is set up correctly.
+
+## Security Best Practices
+
+### Environment Variables
+
+1. **Never hardcode secrets** in source code
+   - Use environment variables for sensitive data
+   - Keep secrets in `.env` file (not committed to git)
+
+2. **Generate Strong Keys**
+   ```bash
+   # Use cryptographically secure random generation
+   python -c "import secrets; print(secrets.token_urlsafe(32))"
+   # Or use OpenSSL
+   openssl rand -hex 32
+   ```
+
+3. **Use Different Keys for Each Environment**
+   - Development: `SECRET_KEY_DEV`
+   - Staging: `SECRET_KEY_STAGING`
+   - Production: `SECRET_KEY_PROD`
+
+4. **Rotate Secrets Regularly**
+   - Change SECRET_KEY every 90 days (recommended)
+   - Update after any suspected compromise
+   - Keep old keys for token validation during transition
+
+5. **Production Secrets Management**
+   - Use secret management services:
+     - AWS Secrets Manager
+     - Azure Key Vault
+     - Google Cloud Secret Manager
+     - HashiCorp Vault
+   - Never store production secrets in files
+
+6. **Verify Configuration at Startup**
+   ```python
+   from config.settings import validate_jwt_config
+   
+   try:
+       validate_jwt_config()
+       print("✓ Security configuration validated")
+   except ValueError as e:
+       print(f"✗ Configuration error: {e}")
+       exit(1)
+   ```
+
+### .gitignore Verification
+
+Ensure `.env` files are ignored:
+```bash
+# Check that .env is not tracked
+git status
+
+# Verify .gitignore contains .env
+grep "\.env" .gitignore
+```
+
+### Security Checklist
+
+Before deployment:
+- [ ] `.env.example` exists with documentation
+- [ ] `.env` is in `.gitignore`
+- [ ] `SECRET_KEY` is at least 32 characters
+- [ ] Different `SECRET_KEY` for each environment
+- [ ] No hardcoded secrets in code
+- [ ] Validation runs at application startup
+- [ ] Production secrets use secret management service
+- [ ] Security team has reviewed configuration
 
 ## Command-line Options
 
