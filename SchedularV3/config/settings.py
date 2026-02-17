@@ -232,13 +232,22 @@ def validate_jwt_config() -> None:
     insecure_values = [
         "your-super-secret-jwt-key-change-this-in-production-min-32-chars",
         "change-this-secret-key-minimum-32-characters-required",
+        "replace_with_generated_key_minimum_32_characters_required",
     ]
     secret_lower = SECRET_KEY.lower()
     
-    # Check if it contains insecure substrings
-    insecure_substrings = ["secret", "password", "test", "change-this", "example"]
+    # Check if it contains obvious placeholder/test patterns
+    # Note: We check for phrases, not individual words to avoid false positives
+    insecure_patterns = [
+        "change-this",
+        "replace-with",
+        "your-super-secret",
+        "example",
+        "test-key",
+        "password",
+    ]
     
-    if secret_lower in insecure_values or any(substr in secret_lower for substr in insecure_substrings):
+    if secret_lower in insecure_values or any(pattern in secret_lower for pattern in insecure_patterns):
         raise ValueError(
             "SECURITY ERROR: SECRET_KEY contains an insecure default value!\n"
             "\n"

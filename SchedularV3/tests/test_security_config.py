@@ -119,7 +119,8 @@ class TestSecretKeyValidation:
         insecure_values = [
             "your-super-secret-jwt-key-change-this-in-production-min-32-chars",
             "change-this-secret-key-minimum-32-characters-required-here",
-            "this-is-a-test-secret-key-32-characters-or-more-here",
+            "REPLACE_WITH_GENERATED_KEY_MINIMUM_32_CHARACTERS_REQUIRED",
+            "this-is-a-test-key-for-testing-32-chars-minimum-required",
             "my-example-password-key-for-testing-32-chars-min",
         ]
         
